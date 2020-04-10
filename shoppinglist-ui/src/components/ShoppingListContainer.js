@@ -89,31 +89,29 @@ class ShoppingListContainer extends Component
     render()
     {
         let {filterText, items} = this.state
-        return
-        (
-            <div class="ShoppingListContainer">
-                <form action="#">
-                    <button type="button" class="btn" id="DateLookup"><i class="fa fa-bars"></i></button>
-                    <input type="text" id="SearchText" placeholder="Search Item" />
-                    <button class="btn"><i class="fa fa-plus-square"></i></button>
-                    <Calendar onDateClick={this.retrieveItems}></Calendar>
-                    <div class="ShoppingList">
-                        <ShoppingListItem items={this.items} filterText={filterText} 
-                                            onItemAdded={this.handleItemAdded}
-                                            onImageUpdated = {this.handleImageUpdated}
-                                            onItemDeleted = {this.handleItemDeleted}
-                                            onItemCollected = {this.handleItemCollected}
-                                            onFileChanged = {this.handleFileChange}
-                                            onInputChanged = {this.handleInputChange}>
-                        </ShoppingListItem>
-                    </div>
-                    <button type="button" class="addNewButton">Add New Item</button>
-                    <div class="ShoppingListTotal">
-                        <label class="item">Total </label>
-                        <label class="item">$129.00 </label>
-                    </div>
-                </form>
+        return (
+        <div class="ShoppingListContainer">
+        <form action="#">
+            <button type="button" class="btn" id="DateLookup"><i class="fa fa-bars"></i></button>
+            <input type="text" id="SearchText" placeholder="Search Item" onClick={this.handleFilterTextChange} />
+            <button class="btn"><i class="fa fa-plus-square"></i></button>
+            <Calendar onDateClick={this.retrieveItems}></Calendar>
+            
+                <ShoppingListItem items={this.items} filterText={filterText} 
+                                    onItemAdded={this.handleItemAdded}
+                                    onImageUpdated = {this.handleImageUpdated}
+                                    onItemDeleted = {this.handleItemDeleted}
+                                    onItemCollected = {this.handleItemCollected}
+                                    onFileChanged = {this.handleFileChange}
+                                    onInputChanged = {this.handleInputChange}>
+                </ShoppingListItem>
+            
+            <button type="button" class="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
+            <div class="ShoppingListTotal">
+                <label class="item">Total </label>
+                <label class="item">$129.00 </label>
             </div>
-        )
+        </form>
+        </div>)
     }
 }
