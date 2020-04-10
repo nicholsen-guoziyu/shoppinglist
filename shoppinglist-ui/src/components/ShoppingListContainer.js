@@ -30,7 +30,7 @@ class ShoppingListContainer extends Component
     handleInputChange = (event) =>
     {
         let items = [...this.state.items];
-        items[e.target.dataset.id][e.target.className] = e.target.value;
+        items[event.target.dataset.id][event.target.className] = event.target.value;
         this.setState({ items });
     }
 
@@ -39,26 +39,26 @@ class ShoppingListContainer extends Component
         //setState to add new item into the items
     }
 
-    handleAddItem(event, index, itemId, itemImageName)
+    handleAddItem(event, itemId, itemImageName)
     {
         //update the items in the specified index with the new value of itemId and itemImageName
         //setState
     }
 
-    handleDeleteItem(event, index)
+    handleDeleteItem(event)
     {
         //remove new item from items
         //setState
     }
 
-    handleUpdateImage(event, index, imageName)
+    handleUpdateImage(event, imageName)
     {
         //setState on imageName for specified item based on its index 
     }
 
-    handleItemCollected(itemId)
+    handleItemCollected(event)
     {
-        //modify the items to update the status to Collected for the specified itemId
+        //modify the items to update the status to Collected based on its event.target.dataset.id
         //setState for items
     }
 
