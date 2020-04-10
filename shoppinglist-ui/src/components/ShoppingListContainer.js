@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Calendar from './Calendar';
+import Calendar from './controls/Calendar';
+import ShoppingListItem from './ShoppingListItem'
 class ShoppingListContainer extends Component
 {
     constructor(props)
@@ -7,17 +8,24 @@ class ShoppingListContainer extends Component
         super(props);
         
         this.state = { 
-            items = null,
+            items = [{selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:"", itemPriority:"", itemStatus:"", itemRemark:"", itemImageName:""}],
             filterText = '',
         }
 
         this.retrieveItems = this.retrieveItems.bind(this);
         this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleFileChange = this.handleFileChange.bind(this);
+        this.handleNewItem = this.handleNewItem.bind(this);
+        this.handleItemAdded = this.handleItemAdded.bind(this);
+        this.handleItemDeleted = this.handleItemDeleted.bind(this);
+        this.handleImageUpdated = this.handleImageUpdated.bind(this);
+        this.handleItemCollected = this.handleItemCollected.bind(this);
     }
 
-    retrieveItems = selectedDate => {
+    retrieveItems = (selectedDate) => {
         //query API to get the items based on selected date argument and call the below setState to rerender the shoppingform
-        //this retrieveItems need to be passed in as props so it can be called by the calendar
+        //this retrieveItems need to be passed in as props so it can be called by the calendar component
         this.setState({ items: null })
     }
 
@@ -27,50 +35,60 @@ class ShoppingListContainer extends Component
         });
       }
 
-    handleInputChange = (event) =>
+    handleInputChange(event)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id][event.target.name] = event.target.value;
+        items[event.target.dataset.id][event.target.dataset.name] = event.target.value;
         this.setState({ items });
     }
 
-    handleFileChange = (event) =>
+    handleFileChange(event)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id][event.target.name] = event.target.files[0];
+        items[event.target.dataset.id][event.target.dataset.name] = event.target.files[0];
         this.setState({ items });
     }
 
     handleNewItem()
     {
-        //setState to add new item into the items
+        this.setState((prevState) => ({
+            items: [...prevState.items, {selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:"", itemPriority:"", itemStatus:"", itemRemark:"", itemImageName:""}],
+          }));
     }
 
-    handleAddItem(event, itemId, itemImageName)
+    handleItemAdded(event, itemId, itemImageName)
     {
-        //update the items in the specified index with the new value of itemId and itemImageName
-        //setState
+        let items = [...this.state.items];
+        items[event.target.dataset.id]["itemId"] = itemId;
+        items[event.target.dataset.id]["itemImageName"] = itemImageName;
+        this.setState({ items });
     }
 
-    handleDeleteItem(event)
+    handleItemDeleted(event)
     {
-        //remove new item from items
-        //setState
+        let items = [...this.state.items];
+        items.splice(event.target.dataset.id, 1)
+        this.setState({ items });
     }
 
-    handleUpdateImage(event, imageName)
+    handleImageUpdated(event, imageName)
     {
-        //setState on imageName for specified item based on its index 
+        let items = [...this.state.items];
+        items[event.target.dataset.id]["selectedFile"] = null;
+        items[event.target.dataset.id]["imageName"] = imageName;
+        this.setState({ items });
     }
 
     handleItemCollected(event)
     {
-        //modify the items to update the status to Collected based on its event.target.dataset.id
-        //setState for items
+        let items = [...this.state.items];
+        items[event.target.dataset.id]["itemStatus"] = "Collected";
+        this.setState({ items });
     }
 
     render()
     {
+        let {filterText, items} = this.state
         return
         (
             <div class="ShoppingListContainer">
@@ -80,7 +98,14 @@ class ShoppingListContainer extends Component
                     <button class="btn"><i class="fa fa-plus-square"></i></button>
                     <Calendar onDateClick={this.retrieveItems}></Calendar>
                     <div class="ShoppingList">
-                        
+                        <ShoppingListItem items={this.items} filterText={filterText} 
+                                            onItemAdded={this.handleItemAdded}
+                                            onImageUpdated = {this.handleImageUpdated}
+                                            onItemDeleted = {this.handleItemDeleted}
+                                            onItemCollected = {this.handleItemCollected}
+                                            onFileChanged = {this.handleFileChange}
+                                            onInputChanged = {this.handleInputChange}>
+                        </ShoppingListItem>
                     </div>
                     <button type="button" class="addNewButton">Add New Item</button>
                     <div class="ShoppingListTotal">
