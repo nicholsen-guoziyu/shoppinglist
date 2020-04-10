@@ -30,7 +30,14 @@ class ShoppingListContainer extends Component
     handleInputChange = (event) =>
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id][event.target.className] = event.target.value;
+        items[event.target.dataset.id][event.target.name] = event.target.value;
+        this.setState({ items });
+    }
+
+    handleFileChange = (event) =>
+    {
+        let items = [...this.state.items];
+        items[event.target.dataset.id][event.target.name] = event.target.files[0];
         this.setState({ items });
     }
 

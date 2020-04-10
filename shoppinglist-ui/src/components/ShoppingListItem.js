@@ -49,12 +49,18 @@ class ShoppingListItem extends Component
         }
     }
 
+    handleFileChange(event)
+    {
+        this.props.handleFileChange(event);
+    }
+
     render()
     {
         return
         (
             props.items.map((val, idx) => 
             {
+                let selectedFile = "selectedFile-${idx}";
                 let storeId = "store-${idx}";
                 let itemName =  "itemName-${idx}";
                 let itemBrand = "itemBrand-${idx}";
@@ -70,7 +76,7 @@ class ShoppingListItem extends Component
                         <input class="ShoppingListItemCheckbox" type="checkbox" onClick={this.handleItemCollected} data-id={idx}/>
                         <button type="button" class="item item-header collapsible" onClick={this.handleCollapsible}>prop.items[idx].itemName</button>
                         <div class="ShoppingListItemDetail collapsible-item hide">
-                            <label class="item" for="File1">Upload File </label><input class="item" type="file" id="File1" name="File1" />
+                            <label class="item" for={selectedFile}>Upload File </label><input class="item" type="file" id={selectedFile} name={selectedFile} onchange={this.props.handleFileChange} data-id={idx}/>
                             <label class="item" for={store}>Store </label><input class="item" type="text" id={store} name={store} value={this.props.items[idx].store} onchange={this.props.handleInputChange} data-id={idx} />
                             <label class="item" for={itemName}>Name </label><input class="item" type="text" id={itemName} name={itemName} value={this.props.items[idx].itemName} onchange={this.props.handleInputChange} data-id={idx} />
                             <label class="item" for={itemBrand}>Brand </label><input class="item" type="text" id={itemBrand} name={itemBrand} value={this.props.items[idx].itemBrand} onchange={this.props.handleInputChange} data-id={idx} />
