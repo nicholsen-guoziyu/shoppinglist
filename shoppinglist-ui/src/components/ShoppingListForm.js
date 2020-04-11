@@ -40,12 +40,13 @@ class ShoppingListForm extends Component
 
     handleFilterTextChange(filterText) {
         let filteredItems = this.state.items;
+        debugger;
         filteredItems = filteredItems.filter((item) => {
             return ( 
-                item.store.indexOf(this.props.filterText) >= 0 ||
-                item.itemName.indexOf(this.props.filterText) >= 0 ||
-                item.itemBrand.indexOf(this.props.filterText) >= 0 ||
-                item.itemRemark.indexOf(this.props.filterText) >= 0
+                item.store.indexOf(filterText) >= 0 ||
+                item.itemName.indexOf(filterText) >= 0 ||
+                item.itemBrand.indexOf(filterText) >= 0 ||
+                item.itemRemark.indexOf(filterText) >= 0
             ) 
         });
         this.setState({
@@ -74,7 +75,8 @@ class ShoppingListForm extends Component
     handleNewItem()
     {
         this.setState((prevState) => ({
-            items: [...prevState.items, {selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:"", itemPriority:"", itemStatus:"", itemRemark:"", itemImageName:""}],
+            items: [...prevState.items, {index:1, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
+            filteredItems: [...prevState.filteredItems, {index:1, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
           }));
     }
 
