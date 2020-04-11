@@ -8,6 +8,7 @@ class ShoppingListForm extends Component
     constructor(props)
     {
         super(props);
+        //query API to get the data
         this.item = {index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""};
         this.state = { 
             items : [this.item],
@@ -73,9 +74,11 @@ class ShoppingListForm extends Component
 
     handleNewItem()
     {
+        let newItem = JSON.parse(JSON.stringify(this.item));
+        newItem.index = this.state.items.length;
         this.setState((prevState) => ({
-            items: [...prevState.items, {index:1, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
-            filteredItems: [...prevState.filteredItems, {index:1, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
+            items: [...prevState.items, newItem],
+            filteredItems: [...prevState.filteredItems, newItem],
         }));
     }
 
