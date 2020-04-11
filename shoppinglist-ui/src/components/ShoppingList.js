@@ -82,7 +82,7 @@ class ShoppingList extends Component
                     return(
                         <div className="ShoppingListItem" key={idx}>
                             <input className="ShoppingListItemCheckbox" type="checkbox" onClick={this.handleItemCollected} data-index={item.index} data-internalindex={idx}/>
-                            <button type="button" className="item item-header collapsible" onClick={this.handleCollapsible}>prop.items[idx].itemName</button>
+                            <button type="button" className="item item-header collapsible" onClick={this.handleCollapsible}>{item.itemName}</button>
                             <div className="ShoppingListItemDetail collapsible-item hide">
                                 <label className="item" for={selectedFile}>Upload File </label><input className="item" type="file" id={selectedFile} name={selectedFile} onChange={this.handleFileChange}  data-index={item.index} data-internalindex={idx} data-name="selectedFile" />
                                 <label className="item" for={store}>Store </label><input className="item" type="text" id={store} name={store} value={this.props.items[idx].store} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="store" />
