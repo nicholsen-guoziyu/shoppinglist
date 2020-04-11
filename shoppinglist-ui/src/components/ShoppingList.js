@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class ShoppingListItem extends Component
+class ShoppingList extends Component
 {
     constructor(props)
     {
@@ -13,7 +13,7 @@ class ShoppingListItem extends Component
 
     handleSaveClick(event)
     {
-        if(this.props[event.target.dataset.internalIndex].itemId == 0)
+        if(this.props[event.target.dataset.internalindex].itemId === 0)
         {
             //call the API to create new item in the server. the server will return the new id and image name
             let itemId = 0;
@@ -24,16 +24,16 @@ class ShoppingListItem extends Component
         {
             //call the API to update item if there is any new image uploaded, the server will return imageName
             let itemImageName = "";
-            if(this.props[event.target.dataset.internalIndex].selectedFile != null)
+            if(this.props[event.target.dataset.internalindex].selectedFile != null)
             {
-                this.props.onImageUpdated(event, imageName);
+                this.props.onImageUpdated(event, itemImageName);
             }
         }
     }
 
     handleDeleteClick(event)
     {
-        if(this.props[event.target.dataset.internalIndex].itemId > 0)
+        if(this.props[event.target.dataset.internalindex].itemId > 0)
         {
             //call the API to delete the item
         }
@@ -65,48 +65,48 @@ class ShoppingListItem extends Component
     render()
     {
         return (
-            <div class="ShoppingList">
+            <div className="ShoppingList">
             {
-                props.items.map((item, idx) => 
+                this.props.items.map((item, idx) => 
                 {
-                    const selectedFile = "selectedFile-${idx}";
-                    const store = "store-${idx}";
-                    const itemName =  "itemName-${idx}";
-                    const itemBrand = "itemBrand-${idx}";
-                    const itemQuantity = "itemQuantity-${idx}";
-                    const itemPrice = "itemPrice-${idx}";
-                    const itemPriority = "itemPriority-${idx}";
-                    const itemStatus = "itemStatus-${idx}";
-                    const itemRemark = "itemRemark-${idx}";
-                    const itemImageName = "itemImageName-${idx}";
+                    const selectedFile = `selectedFile-${idx}`;
+                    const store = `store-${idx}`;
+                    const itemName =  `itemName-${idx}`;
+                    const itemBrand = `itemBrand-${idx}`;
+                    const itemQuantity = `itemQuantity-${idx}`;
+                    const itemPrice = `itemPrice-${idx}`;
+                    const itemPriority = `itemPriority-${idx}`;
+                    const itemStatus = `itemStatus-${idx}`;
+                    const itemRemark = `itemRemark-${idx}`;
+                    const itemImageName = `itemImageName-${idx}`;
                     return(
-                        <div class="ShoppingListItem">
-                            <input class="ShoppingListItemCheckbox" type="checkbox" onClick={this.handleItemCollected} data-index={item.index} data-internalIndex={idx}/>
-                            <button type="button" class="item item-header collapsible" onClick={this.handleCollapsible}>prop.items[idx].itemName</button>
-                            <div class="ShoppingListItemDetail collapsible-item hide">
-                                <label class="item" for={selectedFile}>Upload File </label><input class="item" type="file" id={selectedFile} name={selectedFile} onchange={this.handleFileChange}  data-index={item.index} data-internalIndex={idx} data-name="selectedFile" />
-                                <label class="item" for={store}>Store </label><input class="item" type="text" id={store} name={store} value={this.props.items[idx].store} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx} data-name="store" />
-                                <label class="item" for={itemName}>Name </label><input class="item" type="text" id={itemName} name={itemName} value={this.props.items[idx].itemName} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx} data-name="itemName" />
-                                <label class="item" for={itemBrand}>Brand </label><input class="item" type="text" id={itemBrand} name={itemBrand} value={this.props.items[idx].itemBrand} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx}  data-name="itemBrand" />
-                                <label class="item" for={itemQuantity}>Quantity </label><input class="item" type="text" id={itemQuantity} name={itemQuantity} value={this.props.items[idx].itemQuantity} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx} data-name="itemQuantity" />
-                                <label class="item" for={itemPrice}>Price </label><input class="item" type="text" id={itemPrice} name={itemPrice} value={this.props.items[idx].itemPrice} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx} data-name="itemPrice" />
-                                <label class="item" for={itemPriority}>Priority </label><select class="item" id={itemPriority} name={itemPriority} value={this.props.items[idx].itemPriority} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx} data-name="itemPriority">
+                        <div className="ShoppingListItem" key={idx}>
+                            <input className="ShoppingListItemCheckbox" type="checkbox" onClick={this.handleItemCollected} data-index={item.index} data-internalindex={idx}/>
+                            <button type="button" className="item item-header collapsible" onClick={this.handleCollapsible}>prop.items[idx].itemName</button>
+                            <div className="ShoppingListItemDetail collapsible-item hide">
+                                <label className="item" for={selectedFile}>Upload File </label><input className="item" type="file" id={selectedFile} name={selectedFile} onChange={this.handleFileChange}  data-index={item.index} data-internalindex={idx} data-name="selectedFile" />
+                                <label className="item" for={store}>Store </label><input className="item" type="text" id={store} name={store} value={this.props.items[idx].store} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="store" />
+                                <label className="item" for={itemName}>Name </label><input className="item" type="text" id={itemName} name={itemName} value={this.props.items[idx].itemName} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemName" />
+                                <label className="item" for={itemBrand}>Brand </label><input className="item" type="text" id={itemBrand} name={itemBrand} value={this.props.items[idx].itemBrand} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx}  data-name="itemBrand" />
+                                <label className="item" for={itemQuantity}>Quantity </label><input className="item" type="text" id={itemQuantity} name={itemQuantity} value={this.props.items[idx].itemQuantity} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemQuantity" />
+                                <label className="item" for={itemPrice}>Price </label><input className="item" type="text" id={itemPrice} name={itemPrice} value={this.props.items[idx].itemPrice} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemPrice" />
+                                <label className="item" for={itemPriority}>Priority </label><select className="item" id={itemPriority} name={itemPriority} value={this.props.items[idx].itemPriority} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemPriority">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                 </select>
-                                <label class="item" for={itemStatus}>Status </label><select class="item" id={itemStatus} name={itemStatus} value={this.props.items[idx].itemStatus} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx} data-name="itemStatus">
+                                <label className="item" for={itemStatus}>Status </label><select className="item" id={itemStatus} name={itemStatus} value={this.props.items[idx].itemStatus} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemStatus">
                                     <option value="1">New</option>
                                     <option value="2">Collected</option>
                                     <option value="3">Out of Stock</option>
                                     <option value="4">Paid</option>
                                 </select>
-                                <label class="item" for={itemRemark}>Remark </label><textarea class="item" rows="10" cols="30" id={itemRemark} name={itemRemark} value={this.props.items[idx].itemRemark} onchange={this.props.onInputChanged}  data-index={item.index} data-internalIndex={idx} data-name="itemRemark"></textarea>
-                                <img class="item-image" id={itemImageName} src={props.items[idx].itemImageName} />
-                                <div class="ShoppingListItemAction">
-                                    <button type="submit" onClick={this.handleSaveClick} data-index={item.index} data-internalIndex={idx}>Save</button>
-                                    <button type="submit" onClick={this.handleDeleteClick} data-index={item.index} data-internalIndex={idx}>Delete</button>
+                                <label className="item" for={itemRemark}>Remark </label><textarea className="item" rows="10" cols="30" id={itemRemark} name={itemRemark} value={this.props.items[idx].itemRemark} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemRemark"></textarea>
+                                <img className="item-image" id={itemImageName} src={this.props.items[idx].itemImageName} alt="Item" />
+                                <div className="ShoppingListItemAction">
+                                    <button type="submit" onClick={this.handleSaveClick} data-index={item.index} data-internalindex={idx}>Save</button>
+                                    <button type="submit" onClick={this.handleDeleteClick} data-index={item.index} data-internalindex={idx}>Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -118,4 +118,4 @@ class ShoppingListItem extends Component
     }
 }
 
-export default ShoppingListItem;
+export default ShoppingList;

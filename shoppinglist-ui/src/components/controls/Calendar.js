@@ -2,24 +2,18 @@ import React, { Component } from 'react';
 
 class Calendar extends Component
 {
-    constructor(props)
-    {
-        super(props);
-    }
-
     handleClickedDate(e){
         this.props.onDateClick(e.target.value);
     }
 
     render()
     {
-        return
-        (
-            <div id="Calendar" class="calendar hide">
+        return(
+            <div id="Calendar" className="calendar hide">
                 <header>
                     <h4>April 2020</h4>
                 </header>
-                <ul class="weekdays">
+                <ul className="weekdays">
                     <li>
                         <abbr title="S">Sunday</abbr>
                     </li>
@@ -42,10 +36,10 @@ class Calendar extends Component
                         <abbr title="S">Saturday</abbr>
                     </li>
                 </ul>
-                <ul class="day-grid">
-                    <li class="month=prev">29</li>
-                    <li class="month=prev">30</li>
-                    <li class="month=prev">31</li>
+                <ul className="day-grid">
+                    <li className="month=prev">29</li>
+                    <li className="month=prev">30</li>
+                    <li className="month=prev">31</li>
                     <li>1</li>
                     <li>2</li>
                     <li>3</li>
@@ -76,8 +70,8 @@ class Calendar extends Component
                     <li>28</li>
                     <li>29</li>
                     <li>30</li>
-                    <li class="month-next">1</li>
-                    <li class="month-next">2</li>
+                    <li className="month-next">1</li>
+                    <li className="month-next">2</li>
                 </ul>
             </div>
         )

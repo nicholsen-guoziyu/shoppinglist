@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Calendar from './controls/Calendar';
-import ShoppingListItem from './ShoppingList'
+import ShoppingList from './ShoppingList'
 import ShoppingListTotal from './ShoppingListTotal'
+
 class ShoppingListContainer extends Component
 {
     constructor(props)
@@ -9,9 +10,9 @@ class ShoppingListContainer extends Component
         super(props);
         
         this.state = { 
-            items = [{index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:"", itemPriority:"", itemStatus:"", itemRemark:"", itemImageName:""}],
-            filteredItems = [],
-            filterText = '',
+            items : [{index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
+            filteredItems : [{index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
+            filterText : '',
         }
 
         this.retrieveItems = this.retrieveItems.bind(this);
@@ -25,10 +26,9 @@ class ShoppingListContainer extends Component
         this.handleItemCollected = this.handleItemCollected.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.setState({
-          items,
-          filteredItems: items
+          filteredItems: this.state.items
         })
       }
 
@@ -42,10 +42,10 @@ class ShoppingListContainer extends Component
         let filteredItems = this.state.items;
         filteredItems = filteredItems.filter((item) => {
             return ( 
-                this.props.items[idx].store.indexOf(this.props.filterText) >= 0 ||
-                this.props.items[idx].itemName.indexOf(this.props.filterText) >= 0 ||
-                this.props.items[idx].itemBrand.indexOf(this.props.filterText) >= 0 ||
-                this.props.items[idx].itemRemark.indexOf(this.props.filterText) >= 0
+                item.store.indexOf(this.props.filterText) >= 0 ||
+                item.itemName.indexOf(this.props.filterText) >= 0 ||
+                item.itemBrand.indexOf(this.props.filterText) >= 0 ||
+                item.itemRemark.indexOf(this.props.filterText) >= 0
             ) 
         });
         this.setState({
@@ -58,7 +58,7 @@ class ShoppingListContainer extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index][event.target.dataset.name] = event.target.value;
         this.setState({ items }, () =>
-            handleFilterTextChange(this.state.filterText)
+            this.handleFilterTextChange(this.state.filterText)
         );
     }
 
@@ -67,7 +67,7 @@ class ShoppingListContainer extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index][event.target.dataset.name] = event.target.files[0];
         this.setState({ items }, () =>
-            handleFilterTextChange(this.state.filterText)
+            this.handleFilterTextChange(this.state.filterText)
         );
     }
 
@@ -84,7 +84,7 @@ class ShoppingListContainer extends Component
         items[event.target.dataset.index]["itemId"] = itemId;
         items[event.target.dataset.index]["itemImageName"] = itemImageName;
         this.setState({ items }, () =>
-            handleFilterTextChange(this.state.filterText)
+            this.handleFilterTextChange(this.state.filterText)
         );
     }
 
@@ -101,7 +101,7 @@ class ShoppingListContainer extends Component
         items[event.target.dataset.index]["selectedFile"] = null;
         items[event.target.dataset.index]["imageName"] = imageName;
         this.setState({ items }, () =>
-            handleFilterTextChange(this.state.filterText)
+            this.handleFilterTextChange(this.state.filterText)
         );
     }
 
@@ -110,21 +110,20 @@ class ShoppingListContainer extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index]["itemStatus"] = "2";
         this.setState({ items }, () =>
-            handleFilterTextChange(this.state.filterText)
+            this.handleFilterTextChange(this.state.filterText)
         );
     }
 
     render()
     {
-        let {filterText, items, filteredItems} = this.state;
         return (
             <div class="ShoppingListContainer">
             <form action="#">
-                <button type="button" class="btn" id="DateLookup"><i class="fa fa-bars"></i></button>
+                <button type="button" className="btn" id="DateLookup"><i className="fa fa-bars"></i></button>
                 <input type="text" id="SearchText" placeholder="Search Item" onClick={this.handleFilterTextChange} />
-                <button class="btn"><i class="fa fa-plus-square"></i></button>
+                <button className="btn"><i className="fa fa-plus-square"></i></button>
                 <Calendar onDateClick={this.retrieveItems}></Calendar>
-                <ShoppingList items={this.filteredItems} filterText={filterText} 
+                <ShoppingList items={this.state.filteredItems} filterText={this.state.filterText} 
                                     onItemAdded={this.handleItemAdded}
                                     onImageUpdated = {this.handleImageUpdated}
                                     onItemDeleted = {this.handleItemDeleted}
@@ -132,10 +131,12 @@ class ShoppingListContainer extends Component
                                     onFileChanged = {this.handleFileChange}
                                     onInputChanged = {this.handleInputChange}>
                 </ShoppingList>
-                <button type="button" class="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
-                <ShoppingListTotal items={this.filteredItems}></ShoppingListTotal>
+                <button type="button" className="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
+                <ShoppingListTotal items={this.state.filteredItems}></ShoppingListTotal>
             </form>
             </div>
         )
     }
 }
+
+export default ShoppingListContainer
