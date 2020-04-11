@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Calendar from './controls/Calendar';
-import ShoppingListItem from './ShoppingListItem'
+import ShoppingListItem from './ShoppingList'
 import ShoppingListTotal from './ShoppingListTotal'
 class ShoppingListContainer extends Component
 {
@@ -56,15 +56,19 @@ class ShoppingListContainer extends Component
     handleInputChange(event)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id][event.target.dataset.name] = event.target.value;
-        this.setState({ items });
+        items[event.target.dataset.index][event.target.dataset.name] = event.target.value;
+        this.setState({ items }, () =>
+            handleFilterTextChange(this.state.filterText)
+        );
     }
 
     handleFileChange(event)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id][event.target.dataset.name] = event.target.files[0];
-        this.setState({ items });
+        items[event.target.dataset.index][event.target.dataset.name] = event.target.files[0];
+        this.setState({ items }, () =>
+            handleFilterTextChange(this.state.filterText)
+        );
     }
 
     handleNewItem()
@@ -79,7 +83,9 @@ class ShoppingListContainer extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index]["itemId"] = itemId;
         items[event.target.dataset.index]["itemImageName"] = itemImageName;
-        this.setState({ items });
+        this.setState({ items }, () =>
+            handleFilterTextChange(this.state.filterText)
+        );
     }
 
     handleItemDeleted(event)
@@ -94,37 +100,42 @@ class ShoppingListContainer extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index]["selectedFile"] = null;
         items[event.target.dataset.index]["imageName"] = imageName;
-        this.setState({ items });
+        this.setState({ items }, () =>
+            handleFilterTextChange(this.state.filterText)
+        );
     }
 
     handleItemCollected(event)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.index]["itemStatus"] = "Collected";
-        this.setState({ items });
+        items[event.target.dataset.index]["itemStatus"] = "2";
+        this.setState({ items }, () =>
+            handleFilterTextChange(this.state.filterText)
+        );
     }
 
     render()
     {
         let {filterText, items, filteredItems} = this.state;
         return (
-        <div class="ShoppingListContainer">
-        <form action="#">
-            <button type="button" class="btn" id="DateLookup"><i class="fa fa-bars"></i></button>
-            <input type="text" id="SearchText" placeholder="Search Item" onClick={this.handleFilterTextChange} />
-            <button class="btn"><i class="fa fa-plus-square"></i></button>
-            <Calendar onDateClick={this.retrieveItems}></Calendar>
-            <ShoppingListItem items={this.filteredItems} filterText={filterText} 
-                                onItemAdded={this.handleItemAdded}
-                                onImageUpdated = {this.handleImageUpdated}
-                                onItemDeleted = {this.handleItemDeleted}
-                                onItemCollected = {this.handleItemCollected}
-                                onFileChanged = {this.handleFileChange}
-                                onInputChanged = {this.handleInputChange}>
-            </ShoppingListItem>
-            <button type="button" class="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
-            <ShoppingListTotal items={this.filteredItems}></ShoppingListTotal>
-        </form>
-        </div>)
+            <div class="ShoppingListContainer">
+            <form action="#">
+                <button type="button" class="btn" id="DateLookup"><i class="fa fa-bars"></i></button>
+                <input type="text" id="SearchText" placeholder="Search Item" onClick={this.handleFilterTextChange} />
+                <button class="btn"><i class="fa fa-plus-square"></i></button>
+                <Calendar onDateClick={this.retrieveItems}></Calendar>
+                <ShoppingList items={this.filteredItems} filterText={filterText} 
+                                    onItemAdded={this.handleItemAdded}
+                                    onImageUpdated = {this.handleImageUpdated}
+                                    onItemDeleted = {this.handleItemDeleted}
+                                    onItemCollected = {this.handleItemCollected}
+                                    onFileChanged = {this.handleFileChange}
+                                    onInputChanged = {this.handleInputChange}>
+                </ShoppingList>
+                <button type="button" class="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
+                <ShoppingListTotal items={this.filteredItems}></ShoppingListTotal>
+            </form>
+            </div>
+        )
     }
 }
