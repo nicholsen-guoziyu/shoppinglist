@@ -8,10 +8,10 @@ class ShoppingListForm extends Component
     constructor(props)
     {
         super(props);
-        
+        this.item = {index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""};
         this.state = { 
-            items : [{index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
-            filteredItems : [{index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
+            items : [this.item],
+            filteredItems : [this.item],
             filterText : '',
         }
 
@@ -76,7 +76,7 @@ class ShoppingListForm extends Component
         this.setState((prevState) => ({
             items: [...prevState.items, {index:1, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
             filteredItems: [...prevState.filteredItems, {index:1, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""}],
-          }));
+        }));
     }
 
     handleItemAdded(event, itemId, itemImageName)
@@ -93,7 +93,9 @@ class ShoppingListForm extends Component
     {
         let items = [...this.state.items];
         items.splice(event.target.dataset.index, 1)
-        this.setState({ items });
+        this.setState({ items }, () =>
+            this.handleFilterTextChange(this.state.filterText)
+        );
     }
 
     handleImageUpdated(event, imageName)
@@ -110,6 +112,15 @@ class ShoppingListForm extends Component
     {
         let items = [...this.state.items];
         items[event.target.dataset.index]["itemStatus"] = "2";
+        this.setState({ items }, () =>
+            this.handleFilterTextChange(this.state.filterText)
+        );
+    }
+
+    handleItemCollapsible(event)
+    {
+        let items = [...this.state.items];
+        items[event.target.dataset.index]["collapsed"] = !items[event.target.dataset.index]["collapsed"];
         this.setState({ items }, () =>
             this.handleFilterTextChange(this.state.filterText)
         );

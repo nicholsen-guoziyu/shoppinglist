@@ -9,11 +9,12 @@ class ShoppingList extends Component
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleItemCollected = this.handleItemCollected.bind(this);
         this.handleCollapsible = this.handleCollapsible.bind(this);
+        this.handleFileChange = this.handleFileChange.bind(this);
     }
 
     handleSaveClick(event)
     {
-        if(this.props[event.target.dataset.internalindex].itemId === 0)
+        if(this.props.items[event.target.dataset.internalindex].itemId === 0)
         {
             //call the API to create new item in the server. the server will return the new id and image name
             let itemId = 0;
@@ -24,7 +25,7 @@ class ShoppingList extends Component
         {
             //call the API to update item if there is any new image uploaded, the server will return imageName
             let itemImageName = "";
-            if(this.props[event.target.dataset.internalindex].selectedFile != null)
+            if(this.props.items[event.target.dataset.internalindex].selectedFile != null)
             {
                 this.props.onImageUpdated(event, itemImageName);
             }
@@ -33,7 +34,8 @@ class ShoppingList extends Component
 
     handleDeleteClick(event)
     {
-        if(this.props[event.target.dataset.internalindex].itemId > 0)
+        event.preventDefault();
+        if(this.props.items[event.target.dataset.internalindex].itemId > 0)
         {
             //call the API to delete the item
         }
@@ -83,7 +85,7 @@ class ShoppingList extends Component
                         <div className="ShoppingListItem" key={idx}>
                             <input className="ShoppingListItemCheckbox" type="checkbox" onClick={this.handleItemCollected} data-index={item.index} data-internalindex={idx}/>
                             <button type="button" className="item item-header collapsible" onClick={this.handleCollapsible}>{item.itemName}</button>
-                            <div className="ShoppingListItemDetail collapsible-item hide">
+                            <div className="ShoppingListItemDetail collapsible-item">
                                 <label className="item" for={selectedFile}>Upload File </label><input className="item" type="file" id={selectedFile} name={selectedFile} onChange={this.handleFileChange}  data-index={item.index} data-internalindex={idx} data-name="selectedFile" />
                                 <label className="item" for={store}>Store </label><input className="item" type="text" id={store} name={store} value={this.props.items[idx].store} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="store" />
                                 <label className="item" for={itemName}>Name </label><input className="item" type="text" id={itemName} name={itemName} value={this.props.items[idx].itemName} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemName" />
