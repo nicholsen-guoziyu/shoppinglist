@@ -11,7 +11,6 @@ class ShoppingListTotal extends Component
                 return total + parseInt(currentValue.itemPrice, 10);
             }, 0)
         }
-        debugger;
         return(
             <div className="ShoppingListTotal">
                 <label className="item">Total </label>

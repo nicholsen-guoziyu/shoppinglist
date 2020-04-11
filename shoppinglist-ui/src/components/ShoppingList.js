@@ -81,6 +81,11 @@ class ShoppingList extends Component
                     const itemStatus = `itemStatus-${idx}`;
                     const itemRemark = `itemRemark-${idx}`;
                     const itemImageName = `itemImageName-${idx}`;
+                    let image;
+                    if(this.props.items[idx].itemImageName !== "")
+                    {
+                        image = <img className="item-image" id={itemImageName} src={this.props.items[idx].itemImageName} alt="Item" />
+                    }
                     return(
                         <div className="ShoppingListItem" key={idx}>
                             <input className="ShoppingListItemCheckbox" type="checkbox" onClick={this.handleItemCollected} data-index={item.index} data-internalindex={idx}/>
@@ -105,7 +110,7 @@ class ShoppingList extends Component
                                     <option value="4">Paid</option>
                                 </select>
                                 <label className="item" for={itemRemark}>Remark </label><textarea className="item" rows="10" cols="30" id={itemRemark} name={itemRemark} value={this.props.items[idx].itemRemark} onChange={this.props.onInputChanged}  data-index={item.index} data-internalindex={idx} data-name="itemRemark"></textarea>
-                                <img className="item-image" id={itemImageName} src={this.props.items[idx].itemImageName} alt="Item" />
+                                {image}
                                 <div className="ShoppingListItemAction">
                                     <button type="submit" onClick={this.handleSaveClick} data-index={item.index} data-internalindex={idx}>Save</button>
                                     <button type="submit" onClick={this.handleDeleteClick} data-index={item.index} data-internalindex={idx}>Delete</button>
