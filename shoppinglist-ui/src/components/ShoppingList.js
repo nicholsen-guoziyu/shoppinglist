@@ -69,16 +69,16 @@ class ShoppingListItem extends Component
             {
                 props.items.map((item, idx) => 
                 {
-                    let selectedFile = "selectedFile-${idx}";
-                    let storeId = "store-${idx}";
-                    let itemName =  "itemName-${idx}";
-                    let itemBrand = "itemBrand-${idx}";
-                    let itemQuantity = "itemQuantity-${idx}";
-                    let itemPrice = "itemPrice-${idx}";
-                    let itemPriority = "itemPriority-${idx}";
-                    let itemStatus = "itemStatus-${idx}";
-                    let itemRemark = "itemRemark-${idx}";
-                    let itemImageName = "itemImageName-${idx}";
+                    const selectedFile = "selectedFile-${idx}";
+                    const store = "store-${idx}";
+                    const itemName =  "itemName-${idx}";
+                    const itemBrand = "itemBrand-${idx}";
+                    const itemQuantity = "itemQuantity-${idx}";
+                    const itemPrice = "itemPrice-${idx}";
+                    const itemPriority = "itemPriority-${idx}";
+                    const itemStatus = "itemStatus-${idx}";
+                    const itemRemark = "itemRemark-${idx}";
+                    const itemImageName = "itemImageName-${idx}";
                     return(
                         <div class="ShoppingListItem">
                             <input class="ShoppingListItemCheckbox" type="checkbox" onClick={this.handleItemCollected} data-index={item.index} data-internalIndex={idx}/>

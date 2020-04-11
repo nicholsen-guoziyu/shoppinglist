@@ -1,38 +1,231 @@
-.App {
+/*html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}*/
+
+/*html {
+    margin-left: calc(100vw - 100%);
+}*/
+
+*{
+  box-sizing:border-box;
+}
+
+input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+
+.ShoppingListContainer {
+  display: grid;
+  grid-template-columns: [full-start] minmax(1em, 1fr) [main-start] minmax(0, 56em) [main-end] minmax(1em, 1fr) [full-end];
+}
+
+#SearchText
+{
+  min-height:7vh;
+}
+
+form{
+  display: grid;
+  grid-column:main;
+  grid-template-columns: 10% auto 10%;
+}
+
+.ShoppingList {
+  display: grid;
+  grid-column: 1 / 4;
+  border: 1px solid #00ffff;
+  grid-template-rows: repeat(auto-fill, minmax(auto, 100%));
+  grid-auto-rows: auto;
+  grid-auto-flow: row dense;
+}
+
+.ShoppingListItem {
+  display: grid;
+  border: 1px solid #00ffff;
+  grid-template-columns: 10% auto 10%;
+  align-items: center;
+}
+
+.ShoppingListItemCheckbox{
+  justify-self:center;
+}
+
+.ShoppingListItemHeader {
+  display: grid;
+  border: 1px solid #00ffff;
+}
+.ShoppingListItemDetail {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  border: 1px solid #00ffff;
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.ShoppingListItemAction {
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-template-columns: 1fr 1fr;
+}
+
+.ShoppingListTotal {
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  border: 1px solid #00ffff;
+  grid-template-columns: 1fr auto;
+}
+
+.item-header {
+  min-height: 7vh;
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+
+.item-image {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  align-self: center;
+  justify-self: center;
+  padding: 10px;
+  max-width:100%;
+}
+
+.item {
+  padding: 5px;
+  background-color: forestgreen;
+  border: 1px solid #fff;
+  width:100%;
+}
+
+/**Collapsible */
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  /*padding: 18px;*/
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #ffd800;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.collapsible-item {
+  /*max-height: 0;
+  overflow: hidden;*/
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+.hide{
+  display:none !important;
+}
+
+
+/*calendar*/
+.calendar {
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  transition: max-height 0.2s ease-out;
+}
+header {
+  display: flex;
+  align-items: center;
+  font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+  justify-content: center;
+  margin-bottom: 1em;
+  background: #000;
+  color: #fff;
+  min-height: 10vh;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+ul {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 1em;
+  margin: 0 auto;
+  /*max-width: 64em;*/
+  width:100%;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+li {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  list-style: none;
+  margin-left: 0;
+  font-size: calc(16px + (21 - 16) * ((100vw - 300px) / (1600 - 300)));
 }
 
-.App-link {
-  color: #61dafb;
+ul.weekdays {
+  margin-bottom: 1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+ul.weekdays li {
+    height: 4vw;
+}
+
+ul.day-grid li {
+  background-color: #eaeaea;
+  border: 1px solid #eaeaea;
+  height: 12vw;
+  max-height: 125px;
+}
+
+ul.weekdays abbr[title] {
+  border: none;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+ul.day-grid li:nth-child(1),
+ul.day-grid li:nth-child(2),
+ul.day-grid li:nth-child(3),
+ul.day-grid li:nth-child(34),
+ul.day-grid li:nth-child(35) {
+  background-color: #fff;
+}
+
+@media all and (max-width: 800px) {
+  ul {
+      grid-gap: .25em;
   }
-  to {
-    transform: rotate(360deg);
-  }
+
+      ul.weekdays li {
+          font-size: 0;
+      }
+
+      ul.weekdays > li abbr:after {
+          content: attr(title);
+          font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+          text-align: center;
+      }
 }
