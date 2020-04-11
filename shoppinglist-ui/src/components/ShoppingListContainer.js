@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Calendar from './controls/Calendar';
 import ShoppingListItem from './ShoppingListItem'
+import ShoppingListTotal from './ShoppingListTotal'
 class ShoppingListContainer extends Component
 {
     constructor(props)
@@ -8,7 +9,8 @@ class ShoppingListContainer extends Component
         super(props);
         
         this.state = { 
-            items = [{selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:"", itemPriority:"", itemStatus:"", itemRemark:"", itemImageName:""}],
+            items = [{index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:"", itemPriority:"", itemStatus:"", itemRemark:"", itemImageName:""}],
+            filteredItems = [],
             filterText = '',
         }
 
@@ -23,6 +25,13 @@ class ShoppingListContainer extends Component
         this.handleItemCollected = this.handleItemCollected.bind(this);
     }
 
+    componentWillMount() {
+        this.setState({
+          items,
+          filteredItems: items
+        })
+      }
+
     retrieveItems = (selectedDate) => {
         //query API to get the items based on selected date argument and call the below setState to rerender the shoppingform
         //this retrieveItems need to be passed in as props so it can be called by the calendar component
@@ -30,8 +39,17 @@ class ShoppingListContainer extends Component
     }
 
     handleFilterTextChange(filterText) {
+        let filteredItems = this.state.items;
+        filteredItems = filteredItems.filter((item) => {
+            return ( 
+                this.props.items[idx].store.indexOf(this.props.filterText) >= 0 ||
+                this.props.items[idx].itemName.indexOf(this.props.filterText) >= 0 ||
+                this.props.items[idx].itemBrand.indexOf(this.props.filterText) >= 0 ||
+                this.props.items[idx].itemRemark.indexOf(this.props.filterText) >= 0
+            ) 
+        });
         this.setState({
-          filterText: filterText
+            filteredItems
         });
       }
 
@@ -59,36 +77,36 @@ class ShoppingListContainer extends Component
     handleItemAdded(event, itemId, itemImageName)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id]["itemId"] = itemId;
-        items[event.target.dataset.id]["itemImageName"] = itemImageName;
+        items[event.target.dataset.index]["itemId"] = itemId;
+        items[event.target.dataset.index]["itemImageName"] = itemImageName;
         this.setState({ items });
     }
 
     handleItemDeleted(event)
     {
         let items = [...this.state.items];
-        items.splice(event.target.dataset.id, 1)
+        items.splice(event.target.dataset.index, 1)
         this.setState({ items });
     }
 
     handleImageUpdated(event, imageName)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id]["selectedFile"] = null;
-        items[event.target.dataset.id]["imageName"] = imageName;
+        items[event.target.dataset.index]["selectedFile"] = null;
+        items[event.target.dataset.index]["imageName"] = imageName;
         this.setState({ items });
     }
 
     handleItemCollected(event)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.id]["itemStatus"] = "Collected";
+        items[event.target.dataset.index]["itemStatus"] = "Collected";
         this.setState({ items });
     }
 
     render()
     {
-        let {filterText, items} = this.state
+        let {filterText, items, filteredItems} = this.state;
         return (
         <div class="ShoppingListContainer">
         <form action="#">
@@ -96,21 +114,16 @@ class ShoppingListContainer extends Component
             <input type="text" id="SearchText" placeholder="Search Item" onClick={this.handleFilterTextChange} />
             <button class="btn"><i class="fa fa-plus-square"></i></button>
             <Calendar onDateClick={this.retrieveItems}></Calendar>
-            
-                <ShoppingListItem items={this.items} filterText={filterText} 
-                                    onItemAdded={this.handleItemAdded}
-                                    onImageUpdated = {this.handleImageUpdated}
-                                    onItemDeleted = {this.handleItemDeleted}
-                                    onItemCollected = {this.handleItemCollected}
-                                    onFileChanged = {this.handleFileChange}
-                                    onInputChanged = {this.handleInputChange}>
-                </ShoppingListItem>
-            
+            <ShoppingListItem items={this.filteredItems} filterText={filterText} 
+                                onItemAdded={this.handleItemAdded}
+                                onImageUpdated = {this.handleImageUpdated}
+                                onItemDeleted = {this.handleItemDeleted}
+                                onItemCollected = {this.handleItemCollected}
+                                onFileChanged = {this.handleFileChange}
+                                onInputChanged = {this.handleInputChange}>
+            </ShoppingListItem>
             <button type="button" class="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
-            <div class="ShoppingListTotal">
-                <label class="item">Total </label>
-                <label class="item">$129.00 </label>
-            </div>
+            <ShoppingListTotal items={this.filteredItems}></ShoppingListTotal>
         </form>
         </div>)
     }
