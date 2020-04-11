@@ -26,11 +26,11 @@ class ShoppingListForm extends Component
         this.handleItemCollected = this.handleItemCollected.bind(this);
     }
 
-    componentDidMount() {
-        this.setState({
-          filteredItems: this.state.items
-        })
-      }
+    // componentDidMount() {
+    //     this.setState({
+    //       filteredItems: this.state.items
+    //     })
+    //   }
 
     retrieveItems = (selectedDate) => {
         //query API to get the items based on selected date argument and call the below setState to rerender the shoppingform
@@ -40,7 +40,6 @@ class ShoppingListForm extends Component
 
     handleFilterTextChange(filterText) {
         let filteredItems = this.state.items;
-        debugger;
         filteredItems = filteredItems.filter((item) => {
             return ( 
                 item.store.indexOf(filterText) >= 0 ||

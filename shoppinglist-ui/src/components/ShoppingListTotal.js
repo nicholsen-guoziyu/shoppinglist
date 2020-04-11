@@ -8,13 +8,14 @@ class ShoppingListTotal extends Component
         if(this.props.items.length >= 1)
         {
             sum = this.props.items.reduce(function (total, currentValue) {
-                return total + currentValue.itemPrice;
-            })
+                return total + parseInt(currentValue.itemPrice, 10);
+            }, 0)
         }
+        debugger;
         return(
             <div className="ShoppingListTotal">
                 <label className="item">Total </label>
-                <label className="item">$0 </label>
+                <label className="item">${sum.toString()} </label>
             </div>
         )
     }
