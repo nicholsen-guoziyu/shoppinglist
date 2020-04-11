@@ -18,6 +18,7 @@ class ShoppingListForm extends Component
 
         this.retrieveItems = this.retrieveItems.bind(this);
         this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+        this.handleDataBind = this.handleDataBind.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFileChange = this.handleFileChange.bind(this);
         this.handleNewItem = this.handleNewItem.bind(this);
@@ -39,9 +40,22 @@ class ShoppingListForm extends Component
         this.setState({ items: null })
     }
 
-    handleFilterTextChange(filterText) {
+    handleFilterTextChange(event) {
+        this.setState({filterText : event.target.value}, () =>
+            this.handleDataBind(this.state.filterText)
+        );
+    }
+
+    handleDataBind(filterText)
+    {
         let filteredItems = this.state.items;
         filteredItems = filteredItems.filter((item) => {
+            console.log(filterText)
+            console.log(item.itemName)
+            console.log(item.store.indexOf(filterText) >= 0 ||
+            item.itemName.indexOf(filterText) >= 0 ||
+            item.itemBrand.indexOf(filterText) >= 0 ||
+            item.itemRemark.indexOf(filterText) >= 0)
             return ( 
                 item.store.indexOf(filterText) >= 0 ||
                 item.itemName.indexOf(filterText) >= 0 ||
@@ -52,14 +66,14 @@ class ShoppingListForm extends Component
         this.setState({
             filteredItems
         });
-      }
+    }
 
     handleInputChange(event)
     {
         let items = [...this.state.items];
         items[event.target.dataset.index][event.target.dataset.name] = event.target.value;
         this.setState({ items }, () =>
-            this.handleFilterTextChange(this.state.filterText)
+            this.handleDataBind(this.state.filterText)
         );
     }
 
@@ -68,7 +82,7 @@ class ShoppingListForm extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index][event.target.dataset.name] = event.target.files[0];
         this.setState({ items }, () =>
-            this.handleFilterTextChange(this.state.filterText)
+            this.handleDataBind(this.state.filterText)
         );
     }
 
@@ -88,7 +102,7 @@ class ShoppingListForm extends Component
         items[event.target.dataset.index]["itemId"] = itemId;
         items[event.target.dataset.index]["itemImageName"] = itemImageName;
         this.setState({ items }, () =>
-            this.handleFilterTextChange(this.state.filterText)
+            this.handleDataBind(this.state.filterText)
         );
     }
 
@@ -97,7 +111,7 @@ class ShoppingListForm extends Component
         let items = [...this.state.items];
         items.splice(event.target.dataset.index, 1)
         this.setState({ items }, () =>
-            this.handleFilterTextChange(this.state.filterText)
+            this.handleDataBind(this.state.filterText)
         );
     }
 
@@ -107,7 +121,7 @@ class ShoppingListForm extends Component
         items[event.target.dataset.index]["selectedFile"] = null;
         items[event.target.dataset.index]["imageName"] = imageName;
         this.setState({ items }, () =>
-            this.handleFilterTextChange(this.state.filterText)
+            this.handleDataBind(this.state.filterText)
         );
     }
 
@@ -116,7 +130,7 @@ class ShoppingListForm extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index]["itemStatus"] = "2";
         this.setState({ items }, () =>
-            this.handleFilterTextChange(this.state.filterText)
+            this.handleDataBind(this.state.filterText)
         );
     }
 
@@ -125,7 +139,7 @@ class ShoppingListForm extends Component
         let items = [...this.state.items];
         items[event.target.dataset.index]["collapsed"] = !items[event.target.dataset.index]["collapsed"];
         this.setState({ items }, () =>
-            this.handleFilterTextChange(this.state.filterText)
+            this.handleDataBind(this.state.filterText)
         );
     }
 
@@ -134,7 +148,7 @@ class ShoppingListForm extends Component
         return (
             <form action="#">
                 <button type="button" className="btn" id="DateLookup"><i className="fa fa-bars"></i></button>
-                <input type="text" id="SearchText" placeholder="Search Item" onClick={this.handleFilterTextChange} />
+                <input type="text" id="SearchText" placeholder="Search Item" onChange={this.handleFilterTextChange} value={this.state.filterText} />
                 <button className="btn"><i className="fa fa-plus-square"></i></button>
                 <Calendar onDateClick={this.retrieveItems}></Calendar>
                 <ShoppingList items={this.state.filteredItems} filterText={this.state.filterText} 
