@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingList.Services", "ShoppingList.Services\ShoppingList.Services.csproj", "{7059D40E-736A-4FD9-B99F-78CB53FD83FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{DF333DAE-C1DF-4201-847B-08B223B99858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingList.Data", "ShoppingList.Data\ShoppingList.Data.csproj", "{52A1CDB6-5557-44A4-A278-20EF7D720A55}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{D8426735-7DF0-46D3-801A-92BD0A5DC78E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{CAA2D3BD-C759-456E-B124-798A2B93AC7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingList.Data.SqlServerDataProvider", "ShoppingList.Data.SqlServerDataProvider\ShoppingList.Data.SqlServerDataProvider.csproj", "{39429BF4-F33C-420E-8F7A-03DC00DAF3C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingList.Core", "ShoppingList.Core\ShoppingList.Core.csproj", "{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7059D40E-736A-4FD9-B99F-78CB53FD83FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7059D40E-736A-4FD9-B99F-78CB53FD83FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7059D40E-736A-4FD9-B99F-78CB53FD83FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7059D40E-736A-4FD9-B99F-78CB53FD83FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A1CDB6-5557-44A4-A278-20EF7D720A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A1CDB6-5557-44A4-A278-20EF7D720A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A1CDB6-5557-44A4-A278-20EF7D720A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A1CDB6-5557-44A4-A278-20EF7D720A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39429BF4-F33C-420E-8F7A-03DC00DAF3C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39429BF4-F33C-420E-8F7A-03DC00DAF3C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39429BF4-F33C-420E-8F7A-03DC00DAF3C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39429BF4-F33C-420E-8F7A-03DC00DAF3C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{52A1CDB6-5557-44A4-A278-20EF7D720A55} = {DF333DAE-C1DF-4201-847B-08B223B99858}
+		{CAA2D3BD-C759-456E-B124-798A2B93AC7C} = {D8426735-7DF0-46D3-801A-92BD0A5DC78E}
+		{39429BF4-F33C-420E-8F7A-03DC00DAF3C4} = {CAA2D3BD-C759-456E-B124-798A2B93AC7C}
+		{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC} = {DF333DAE-C1DF-4201-847B-08B223B99858}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0C0747D-454B-42E8-9EE1-B0C20D039624}
+	EndGlobalSection
+EndGlobal
