@@ -50,12 +50,6 @@ class ShoppingListForm extends Component
     {
         let filteredItems = this.state.items;
         filteredItems = filteredItems.filter((item) => {
-            console.log(filterText)
-            console.log(item.itemName)
-            console.log(item.store.indexOf(filterText) >= 0 ||
-            item.itemName.indexOf(filterText) >= 0 ||
-            item.itemBrand.indexOf(filterText) >= 0 ||
-            item.itemRemark.indexOf(filterText) >= 0)
             return ( 
                 item.store.indexOf(filterText) >= 0 ||
                 item.itemName.indexOf(filterText) >= 0 ||
@@ -88,6 +82,7 @@ class ShoppingListForm extends Component
 
     handleNewItem()
     {
+        //for deep copy
         let newItem = JSON.parse(JSON.stringify(this.item));
         newItem.index = this.state.items.length;
         this.setState((prevState) => ({
