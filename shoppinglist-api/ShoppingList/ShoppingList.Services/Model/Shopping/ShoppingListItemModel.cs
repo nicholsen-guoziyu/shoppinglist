@@ -1,8 +1,8 @@
-﻿using ShoppingList.Data;
+﻿using System;
 
-namespace ShoppingList.Services.Model
+namespace ShoppingList.Services.Model.Shopping
 {
-    public class ShoppingListItem : BaseEntity
+    public class ShoppingListItemModel
     {
         public long Id { get; set; }
 
@@ -19,5 +19,7 @@ namespace ShoppingList.Services.Model
         public int ItemPriority { get; set; }
 
         public string ItemRemark { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }

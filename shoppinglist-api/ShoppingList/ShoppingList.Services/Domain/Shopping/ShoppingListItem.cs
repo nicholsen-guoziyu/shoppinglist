@@ -1,6 +1,9 @@
-﻿namespace ShoppingList.Services.Model
+﻿using ShoppingList.Data;
+using System;
+
+namespace ShoppingList.Services.Domain.Shopping
 {
-    public class ShoppingListItemModel
+    public class ShoppingListItem : BaseEntity
     {
         public long Id { get; set; }
 
@@ -17,5 +20,7 @@
         public int ItemPriority { get; set; }
 
         public string ItemRemark { get; set; }
+
+        public DateTime CreatedOnUtc { get; set; }
     }
 }

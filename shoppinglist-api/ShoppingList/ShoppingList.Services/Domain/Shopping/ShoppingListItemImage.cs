@@ -1,6 +1,7 @@
 ﻿using ShoppingList.Data;
+using System;
 
-namespace ShoppingList.Services.Model
+namespace ShoppingList.Services.Domain.Shopping
 {
     public class ShoppingListItemImage : BaseEntity
     {
@@ -9,5 +10,7 @@ namespace ShoppingList.Services.Model
         public long ShoppingListItemId { get; set; }
 
         public string ImageName { get; set; }
+
+        public DateTime CreatedOnUtc { get; set; }
     }
 }
