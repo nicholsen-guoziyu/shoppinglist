@@ -6,16 +6,37 @@ using System.Threading.Tasks;
 
 namespace ShoppingList.Data
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : BaseEntity
     {
         #region Create
-        void Add(T entity);
 
-        void AddRange(IEnumerable<T> entity);
+        int Create(T entity);
+
+        Task<int> CreateAsync(T entity);
+
+        int CreateWithInt32Identity(T entity);
+
+        Task<int> CreateWithInt32IdentityAsync(T entity);
+
+        long CreateWithInt64Identity(T entity);
+
+        Task<long> CreateWithInt64IdentityAsync(T entity);
+
+        void Create(IEnumerable<T> entity);
+
+        Task CreateAsync(IEnumerable<T> entity);
+
         #endregion Create
 
         #region Read
-        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
+
+        T GetById(int id);
+
+        Task<T> GetByIdAsync(int id);
+
+        T GetById(long id);
+
+        Task<T> GetByIdAsync(long id);
 
         /// <summary>
         /// Implement the below method with care to not return a lot of records to avoid overloading the systems
@@ -23,31 +44,55 @@ namespace ShoppingList.Data
         /// <returns></returns>
         Task<List<T>> ListAsync();
 
-        Task<List<T>> ListAsync(IQueryable<T> dataSource, int dataIndex, int dataSize);
-
-        Task<int> GetDataCount();
-
-        Task<int> GetDataCount(IQueryable<T> dataSource);
-
-        IQueryable<T> Query();
+        IQueryable<T> Entities();
         #endregion Read
 
         #region Update
-        void Update(T entity);
+        /// <summary>
+        /// Synchronous Update
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>number of the updated records</returns>
+        int Update(T entity);
+
+        /// <summary>
+        /// Asynchronous Update
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>number of the updated records</returns>
+        Task<int> UpdateAsync(T entity);
 
         void Update(IEnumerable<T> entity);
+
+        Task UpdateAsync(IEnumerable<T> entity);
         #endregion Update
 
         #region Delete
-        void Remove(T entity);
+        /// <summary>
+        /// Synchronous Delete
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>number of the deleted records</returns>
+        int Delete(T entity);
 
-        void Remove(IEnumerable<T> entity);
+        /// <summary>
+        /// Asynchronous Delete
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>number of the deleted records</returns>
+        Task<int> DeleteAsync(T entity);
+
+        /// <summary>
+        /// Synchronous Delete
+        /// </summary>
+        /// <param name="entity"></param>
+        void Delete(IEnumerable<T> entity);
+
+        /// <summary>
+        /// Asynchronous Delete
+        /// </summary>
+        /// <param name="entity"></param>
+        Task DeleteAsync(IEnumerable<T> entity);
         #endregion Delete
-
-        #region Save
-        int SaveChanges();
-
-        Task<int> SaveChangesAsync();
-        #endregion Save
     }
 }

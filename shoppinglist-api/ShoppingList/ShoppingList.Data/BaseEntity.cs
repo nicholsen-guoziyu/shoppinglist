@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ShoppingList.Data
 {
-    public class EntityBase
+    public class BaseEntity
     {
     }
 }
