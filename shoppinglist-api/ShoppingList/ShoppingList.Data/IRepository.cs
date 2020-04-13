@@ -30,13 +30,9 @@ namespace ShoppingList.Data
 
         #region Read
 
-        T GetById(int id);
+        T GetEntity(Expression<Func<T, bool>> predicate);
 
-        Task<T> GetByIdAsync(int id);
-
-        T GetById(long id);
-
-        Task<T> GetByIdAsync(long id);
+        Task<T> GetEntityAsync(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Implement the below method with care to not return a lot of records to avoid overloading the systems

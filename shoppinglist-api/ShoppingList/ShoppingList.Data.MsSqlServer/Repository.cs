@@ -16,27 +16,28 @@ namespace ShoppingList.Data.MsSqlServer
     {
         public string ConnectionString { get; set; }
 
-
-        private DataConnection GetDataConnection()
+        private DataConnection GetDataProvider()
         {
             var dataConnection = new DataConnection(new SqlServerDataProvider(ProviderName.SqlServer, 
                                             SqlServerVersion.v2008), ConnectionString);
             return dataConnection;
         }
 
+        #region Create
+
         public int Create(T entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+                if (entity == null)
+                    throw new ArgumentNullException(nameof(entity));
 
-            int totalRecords = 0;
+                int totalRecords = 0;
             
-            using (var dataConnection = GetDataConnection())
-            {
-                totalRecords = dataConnection.Insert(entity);
-            }
+                using (var dataConnection = GetDataProvider())
+                {
+                    totalRecords = dataConnection.Insert(entity);
+                }
             
-            return totalRecords;
+                return totalRecords;
         }
 
         public async Task<int> CreateAsync(T entity)
@@ -46,7 +47,7 @@ namespace ShoppingList.Data.MsSqlServer
 
             int totalRecords = 0;
 
-            using (var dataConnection = GetDataConnection())
+            using (var dataConnection = GetDataProvider())
             {
                 totalRecords = await dataConnection.InsertAsync(entity);
             }
@@ -66,35 +67,99 @@ namespace ShoppingList.Data.MsSqlServer
 
         public int CreateWithInt32Identity(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            int newId = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                newId = dataConnection.InsertWithInt32Identity(entity);
+            }
+
+            return newId;
         }
 
-        public Task<int> CreateWithInt32IdentityAsync(T entity)
+        public async Task<int> CreateWithInt32IdentityAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            int newId = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                newId = await dataConnection.InsertWithInt32IdentityAsync(entity);
+            }
+
+            return newId;
         }
 
         public long CreateWithInt64Identity(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            long newId = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                newId = dataConnection.InsertWithInt64Identity(entity);
+            }
+
+            return newId;
         }
 
-        public Task<long> CreateWithInt64IdentityAsync(T entity)
+        public async Task<long> CreateWithInt64IdentityAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            long newId = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                newId = await dataConnection.InsertWithInt64IdentityAsync(entity);
+            }
+
+            return newId;
         }
+
+        #endregion Create
+
+        #region Delete
 
         public int Delete(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            int totalRecords = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                totalRecords = dataConnection.Delete(entity);
+            }
+
+            return totalRecords;
+        }
+
+        public async Task<int> DeleteAsync(T entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            int totalRecords = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                totalRecords = await dataConnection.DeleteAsync(entity);
+            }
+
+            return totalRecords;
         }
 
         public void Delete(IEnumerable<T> entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> DeleteAsync(T entity)
         {
             throw new NotImplementedException();
         }
@@ -104,29 +169,33 @@ namespace ShoppingList.Data.MsSqlServer
             throw new NotImplementedException();
         }
 
+        #endregion Delete
+
+        #region Read
+
+        private ITable<T> _table;
+
+        public ITable<T> GetTable()
+        {
+            return new DataContext(new SqlServerDataProvider(ProviderName.SqlServer,
+                                            SqlServerVersion.v2008), ConnectionString).GetTable<T>();
+        }
+
+        protected ITable<T> Table => _table ?? (_table = GetTable());
+
         public IQueryable<T> Entities()
         {
-            throw new NotImplementedException();
+            return Table;
         }
 
-        public T GetById(int id)
+        public T GetEntity(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return Table.FirstOrDefault(predicate);
         }
 
-        public T GetById(long id)
+        public async Task<T> GetEntityAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> GetByIdAsync(long id)
-        {
-            throw new NotImplementedException();
+            return await Table.FirstOrDefaultAsync(predicate);
         }
 
         public Task<List<T>> ListAsync()
@@ -134,17 +203,40 @@ namespace ShoppingList.Data.MsSqlServer
             throw new NotImplementedException();
         }
 
+        #endregion Read
+
+        #region Update
         public int Update(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            int totalRecords = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                totalRecords = dataConnection.Update(entity);
+            }
+
+            return totalRecords;
+        }
+
+        public async Task<int> UpdateAsync(T entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            int totalRecords = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                totalRecords = await dataConnection.UpdateAsync(entity);
+            }
+
+            return totalRecords;
         }
 
         public void Update(IEnumerable<T> entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> UpdateAsync(T entity)
         {
             throw new NotImplementedException();
         }
@@ -153,5 +245,6 @@ namespace ShoppingList.Data.MsSqlServer
         {
             throw new NotImplementedException();
         }
+        #endregion Update
     }
 }
