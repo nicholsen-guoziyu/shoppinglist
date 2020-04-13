@@ -27,17 +27,17 @@ namespace ShoppingList.Data.MsSqlServer
 
         public int Create(T entity)
         {
-                if (entity == null)
-                    throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
-                int totalRecords = 0;
+            int totalRecords = 0;
             
-                using (var dataConnection = GetDataProvider())
-                {
-                    totalRecords = dataConnection.Insert(entity);
-                }
+            using (var dataConnection = GetDataProvider())
+            {
+                totalRecords = dataConnection.Insert(entity);
+            }
             
-                return totalRecords;
+            return totalRecords;
         }
 
         public async Task<int> CreateAsync(T entity)
@@ -55,12 +55,12 @@ namespace ShoppingList.Data.MsSqlServer
             return totalRecords;
         }
 
-        public void Create(IEnumerable<T> entity)
+        public void Create(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(IEnumerable<T> entity)
+        public Task CreateAsync(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }
@@ -159,12 +159,12 @@ namespace ShoppingList.Data.MsSqlServer
             return totalRecords;
         }
 
-        public void Delete(IEnumerable<T> entity)
+        public void Delete(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(IEnumerable<T> entity)
+        public Task DeleteAsync(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }
@@ -198,9 +198,18 @@ namespace ShoppingList.Data.MsSqlServer
             return await Table.FirstOrDefaultAsync(predicate);
         }
 
-        public Task<List<T>> ListAsync()
+        public PaginatedList<T> GetEntities(System.Linq.IQueryable<T> dataSource, int dataIndex, int dataSize)
         {
-            throw new NotImplementedException();
+            var count = dataSource.Count();
+            var items = dataSource.Skip((dataIndex - 1) * dataSize).Take(dataSize).ToList();
+            return new PaginatedList<T>(items, count, dataIndex, dataSize);
+        }
+
+        public async Task<PaginatedList<T>> GetEntitiesAsync(System.Linq.IQueryable<T> dataSource, int dataIndex, int dataSize)
+        {
+            var count = await dataSource.CountAsync();
+            var items = await dataSource.Skip((dataIndex - 1) * dataSize).Take(dataSize).ToListAsync();
+            return new PaginatedList<T>(items, count, dataIndex, dataSize);
         }
 
         #endregion Read
@@ -236,12 +245,12 @@ namespace ShoppingList.Data.MsSqlServer
             return totalRecords;
         }
 
-        public void Update(IEnumerable<T> entity)
+        public void Update(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(IEnumerable<T> entity)
+        public Task UpdateAsync(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }

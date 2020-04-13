@@ -22,9 +22,9 @@ namespace ShoppingList.Data
 
         Task<long> CreateWithInt64IdentityAsync(T entity);
 
-        void Create(IEnumerable<T> entity);
+        void Create(IEnumerable<T> entities);
 
-        Task CreateAsync(IEnumerable<T> entity);
+        Task CreateAsync(IEnumerable<T> entities);
 
         #endregion Create
 
@@ -34,11 +34,9 @@ namespace ShoppingList.Data
 
         Task<T> GetEntityAsync(Expression<Func<T, bool>> predicate);
 
-        /// <summary>
-        /// Implement the below method with care to not return a lot of records to avoid overloading the systems
-        /// </summary>
-        /// <returns></returns>
-        Task<List<T>> ListAsync();
+        PaginatedList<T> GetEntities(System.Linq.IQueryable<T> dataSource, int dataIndex, int dataSize);
+
+        Task<PaginatedList<T>> GetEntitiesAsync(System.Linq.IQueryable<T> dataSource, int dataIndex, int dataSize);
 
         IQueryable<T> Entities();
         #endregion Read
@@ -58,9 +56,9 @@ namespace ShoppingList.Data
         /// <returns>number of the updated records</returns>
         Task<int> UpdateAsync(T entity);
 
-        void Update(IEnumerable<T> entity);
+        void Update(IEnumerable<T> entities);
 
-        Task UpdateAsync(IEnumerable<T> entity);
+        Task UpdateAsync(IEnumerable<T> entities);
         #endregion Update
 
         #region Delete
@@ -81,14 +79,14 @@ namespace ShoppingList.Data
         /// <summary>
         /// Synchronous Delete
         /// </summary>
-        /// <param name="entity"></param>
-        void Delete(IEnumerable<T> entity);
+        /// <param name="entities"></param>
+        void Delete(IEnumerable<T> entities);
 
         /// <summary>
         /// Asynchronous Delete
         /// </summary>
-        /// <param name="entity"></param>
-        Task DeleteAsync(IEnumerable<T> entity);
+        /// <param name="entities"></param>
+        Task DeleteAsync(IEnumerable<T> entities);
         #endregion Delete
     }
 }
