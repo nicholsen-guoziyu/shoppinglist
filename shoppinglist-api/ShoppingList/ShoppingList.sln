@@ -17,6 +17,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingList.Core", "Shoppi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingList.Data.MsSqlServer", "ShoppingList.Data.MsSqlServer\ShoppingList.Data.MsSqlServer.csproj", "{B41965C8-B46F-4B95-B79B-000167AAED84}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{A546F75D-3D5B-4B21-86A8-53BDDD08650E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Initializer", "Initializer", "{141ED75C-6934-4EB1-88F1-5C3B5EAC1D78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{A84724B1-1275-4EFA-AA1E-A2314E854E2A}"
+	ProjectSection(SolutionItems) = preProject
+		DatabaseSchema.sql = DatabaseSchema.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +57,7 @@ Global
 		{CAA2D3BD-C759-456E-B124-798A2B93AC7C} = {D8426735-7DF0-46D3-801A-92BD0A5DC78E}
 		{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC} = {DF333DAE-C1DF-4201-847B-08B223B99858}
 		{B41965C8-B46F-4B95-B79B-000167AAED84} = {CAA2D3BD-C759-456E-B124-798A2B93AC7C}
+		{A84724B1-1275-4EFA-AA1E-A2314E854E2A} = {141ED75C-6934-4EB1-88F1-5C3B5EAC1D78}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0C0747D-454B-42E8-9EE1-B0C20D039624}
