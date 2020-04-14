@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{CAA2D3BD-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingList.Core", "ShoppingList.Core\ShoppingList.Core.csproj", "{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingList.Data.MsSqlServer", "ShoppingList.Data.MsSqlServer\ShoppingList.Data.MsSqlServer.csproj", "{B41965C8-B46F-4B95-B79B-000167AAED84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingList.Data.MsSqlServer", "ShoppingList.Data.MsSqlServer\ShoppingList.Data.MsSqlServer.csproj", "{B41965C8-B46F-4B95-B79B-000167AAED84}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{A546F75D-3D5B-4B21-86A8-53BDDD08650E}"
 EndProject
@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{A847
 	ProjectSection(SolutionItems) = preProject
 		DatabaseSchema.sql = DatabaseSchema.sql
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingList.Business", "ShoppingList.Business\ShoppingList.Business.csproj", "{68C8008F-EB32-43E9-9A8D-5BF1A0B2B13C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{B41965C8-B46F-4B95-B79B-000167AAED84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B41965C8-B46F-4B95-B79B-000167AAED84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B41965C8-B46F-4B95-B79B-000167AAED84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68C8008F-EB32-43E9-9A8D-5BF1A0B2B13C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68C8008F-EB32-43E9-9A8D-5BF1A0B2B13C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68C8008F-EB32-43E9-9A8D-5BF1A0B2B13C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68C8008F-EB32-43E9-9A8D-5BF1A0B2B13C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{564E8A8E-9FFB-4761-8F79-5A0F1A136BFC} = {DF333DAE-C1DF-4201-847B-08B223B99858}
 		{B41965C8-B46F-4B95-B79B-000167AAED84} = {CAA2D3BD-C759-456E-B124-798A2B93AC7C}
 		{A84724B1-1275-4EFA-AA1E-A2314E854E2A} = {141ED75C-6934-4EB1-88F1-5C3B5EAC1D78}
+		{68C8008F-EB32-43E9-9A8D-5BF1A0B2B13C} = {A546F75D-3D5B-4B21-86A8-53BDDD08650E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0C0747D-454B-42E8-9EE1-B0C20D039624}

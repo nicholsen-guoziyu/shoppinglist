@@ -1,9 +1,9 @@
 ﻿using ShoppingList.Data;
 using System;
 
-namespace ShoppingList.Services.Domain.Shopping
+namespace ShoppingList.Business.ShoppingDomain.Model
 {
-    public class ShoppingListItem : BaseEntity
+    public class ShoppingItem : BaseEntity
     {
         public long Id { get; set; }
 

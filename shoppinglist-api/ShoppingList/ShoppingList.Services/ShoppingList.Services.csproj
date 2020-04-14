@@ -12,10 +12,5 @@
     <ProjectReference Include="..\ShoppingList.Data\ShoppingList.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\User\" />
-    <Folder Include="Model\User\" />
-  </ItemGroup>
-
 
 </Project>

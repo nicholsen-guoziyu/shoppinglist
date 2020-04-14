@@ -2,7 +2,7 @@
 
 namespace ShoppingList.Services.Model.Shopping
 {
-    public class ShoppingListItemImageModel
+    public class ShoppingItemImageModel
     {
         public long Id { get; set; }
 
