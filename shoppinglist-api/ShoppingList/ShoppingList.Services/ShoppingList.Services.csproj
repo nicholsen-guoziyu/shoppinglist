@@ -5,10 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model\Shopping\ShoppingItemImageModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShoppingList.Business\ShoppingList.Business.csproj" />
     <ProjectReference Include="..\ShoppingList.Data\ShoppingList.Data.csproj" />
   </ItemGroup>
 

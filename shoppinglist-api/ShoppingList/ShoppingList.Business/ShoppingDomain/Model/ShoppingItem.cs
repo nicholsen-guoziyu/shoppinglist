@@ -7,6 +7,8 @@ namespace ShoppingList.Business.ShoppingDomain.Model
     {
         public long Id { get; set; }
 
+        public long ShoppingId { get; set; }
+
         public string Store { get; set; }
 
         public string ItemName { get; set; }
@@ -18,6 +20,8 @@ namespace ShoppingList.Business.ShoppingDomain.Model
         public decimal ItemPrice { get; set; }
 
         public int ItemPriority { get; set; }
+
+        public int ItemStatus { get; set; }
 
         public string ItemRemark { get; set; }
 

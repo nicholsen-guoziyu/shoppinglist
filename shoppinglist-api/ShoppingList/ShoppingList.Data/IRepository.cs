@@ -38,7 +38,7 @@ namespace ShoppingList.Data
 
         Task<PaginatedList<T>> GetEntitiesAsync(System.Linq.IQueryable<T> dataSource, int dataIndex, int dataSize);
 
-        IQueryable<T> Entities();
+        IQueryable<T> Entities { get; }
         #endregion Read
 
         #region Update

@@ -8,6 +8,8 @@ namespace ShoppingList.Services.Model.Shopping
 
         public long UserId { get; set; }
 
+        public DateTime ShoppingDate { get; set; }
+
         public DateTime CreatedOn { get; set; }
     }
 }

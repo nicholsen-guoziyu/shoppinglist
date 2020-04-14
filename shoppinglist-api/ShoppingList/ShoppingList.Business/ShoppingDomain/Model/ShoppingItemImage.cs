@@ -7,7 +7,7 @@ namespace ShoppingList.Business.ShoppingDomain.Model
     {
         public long Id { get; set; }
 
-        public long ShoppingListItemId { get; set; }
+        public long ShoppingItemId { get; set; }
 
         public string ImageName { get; set; }
 

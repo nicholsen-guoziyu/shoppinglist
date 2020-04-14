@@ -180,10 +180,7 @@ namespace ShoppingList.Data.MsSqlServer
 
         protected ITable<T> Table => _table ?? (_table = GetTable());
 
-        public IQueryable<T> Entities()
-        {
-            return Table;
-        }
+        public IQueryable<T> Entities => Table;
 
         public T GetEntity(Expression<Func<T, bool>> predicate)
         {
