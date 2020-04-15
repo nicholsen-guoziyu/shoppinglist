@@ -8,11 +8,12 @@ class ShoppingListForm extends Component
     constructor(props)
     {
         super(props);
-        //query API to get the data
         this.item = {index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""};
         this.state = { 
-            items : [this.item],
-            filteredItems : [this.item],
+            error: null,
+            isLoaded: false,
+            items : [],
+            filteredItems : [],
             filterText : '',
         }
 
@@ -28,11 +29,28 @@ class ShoppingListForm extends Component
         this.handleItemCollected = this.handleItemCollected.bind(this);
     }
 
-    // componentDidMount() {
-    //     this.setState({
-    //       filteredItems: this.state.items
-    //     })
-    //   }
+    componentDidMount() {
+        fetch("https://localhost:44367/api/shopping")
+        .then(res => res.json())
+        .then(
+            (result) => {
+            this.setState({
+                isLoaded: true,
+                items: result.items,
+                filteredItems: result.items
+            });
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            }
+        )
+      }
 
     retrieveItems = (selectedDate) => {
         //query API to get the items based on selected date argument and call the below setState to rerender the shoppingform
@@ -140,24 +158,36 @@ class ShoppingListForm extends Component
 
     render()
     {
-        return (
-            <form action="#">
-                <button type="button" className="btn" id="DateLookup"><i className="fa fa-bars"></i></button>
-                <input type="text" id="SearchText" placeholder="Search Item" onChange={this.handleFilterTextChange} value={this.state.filterText} />
-                <button className="btn"><i className="fa fa-plus-square"></i></button>
-                <Calendar onDateClick={this.retrieveItems}></Calendar>
-                <ShoppingList items={this.state.filteredItems} filterText={this.state.filterText} 
-                                    onItemAdded={this.handleItemAdded}
-                                    onImageUpdated = {this.handleImageUpdated}
-                                    onItemDeleted = {this.handleItemDeleted}
-                                    onItemCollected = {this.handleItemCollected}
-                                    onFileChanged = {this.handleFileChange}
-                                    onInputChanged = {this.handleInputChange}>
-                </ShoppingList>
-                <button type="button" className="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
-                <ShoppingListTotal items={this.state.filteredItems}></ShoppingListTotal>
-            </form>
-        )
+        const { error, isLoaded } = this.state;
+        if (error) 
+        {
+            return <div>Error: {error.message}</div>;
+        } 
+        else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } 
+        else 
+        {
+            return (
+                <form action="#">
+                    <button type="button" className="btn" id="DateLookup"><i className="fa fa-bars"></i></button>
+                    <input type="text" id="SearchText" placeholder="Search Item" onChange={this.handleFilterTextChange} value={this.state.filterText} />
+                    <button className="btn"><i className="fa fa-plus-square"></i></button>
+                    <Calendar onDateClick={this.retrieveItems}></Calendar>
+                    <ShoppingList items={this.state.filteredItems} filterText={this.state.filterText} 
+                                        onItemAdded={this.handleItemAdded}
+                                        onImageUpdated = {this.handleImageUpdated}
+                                        onItemDeleted = {this.handleItemDeleted}
+                                        onItemCollected = {this.handleItemCollected}
+                                        onFileChanged = {this.handleFileChange}
+                                        onInputChanged = {this.handleInputChange}>
+                    </ShoppingList>
+                    <button type="button" className="addNewButton" onClick={this.handleNewItem}>Add New Item</button>
+                    <ShoppingListTotal items={this.state.filteredItems}></ShoppingListTotal>
+                </form>
+            );
+        }
+        
     }
 }
 

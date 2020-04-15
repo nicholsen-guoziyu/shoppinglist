@@ -11,10 +11,18 @@ namespace ShoppingList.Data.MsSqlServer
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        public string ConnectionString { get; set; }
+        public string ConnectionString 
+        {
+            get { return "Server=localhost;Database=ShoppingList;Trusted_Connection=True;Enlist=False;";  }
+            set
+            {
+
+            }
+        }
 
         private DataConnection GetDataProvider()
         {
+            //TODO make connection string dynamically by read from file
             var dataConnection = new DataConnection(new SqlServerDataProvider(ProviderName.SqlServer, 
                                             SqlServerVersion.v2008), ConnectionString);
             return dataConnection;

@@ -22,7 +22,9 @@ namespace ShoppingList.Services.Controllers
             _shoppingBusiness = shoppingBusiness;
         }
 
-        [HttpGet]
+        [HttpGet("{shoppingDate}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromQuery]DateTime shoppingDate)
         {
             //TODO check if current log in user is the same userId or if different, then whether the current logged in user has access to this user id. Otherwise return unauthorized
@@ -77,7 +79,7 @@ namespace ShoppingList.Services.Controllers
             return Ok(shoppingItemModelList);
         }
 
-        [HttpGet]
+        [HttpGet("shoppingitemimage/{shoppingItemImageId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetShoppingItemImage([FromQuery]long shoppingItemImageId)

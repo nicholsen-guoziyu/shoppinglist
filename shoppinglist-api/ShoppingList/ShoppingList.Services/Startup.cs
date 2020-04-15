@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ShoppingList.Business.ShoppingDomain;
+using ShoppingList.Data;
+using ShoppingList.Data.MsSqlServer;
 
 namespace ShoppingList.Services
 {
@@ -25,6 +28,8 @@ namespace ShoppingList.Services
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IShoppingBusiness), typeof(ShoppingBusiness));
             services.AddControllers();
         }
 
