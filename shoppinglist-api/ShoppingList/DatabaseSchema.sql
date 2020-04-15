@@ -1,6 +1,6 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [ShoppingList]    Script Date: 14/04/2020 1:10:50 am ******/
+/****** Object:  Database [ShoppingList]    Script Date: 15/04/2020 10:27:58 pm ******/
 CREATE DATABASE [ShoppingList]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -80,31 +80,33 @@ ALTER DATABASE [ShoppingList] SET QUERY_STORE = OFF
 GO
 USE [ShoppingList]
 GO
-/****** Object:  Table [dbo].[ShoppingList]    Script Date: 14/04/2020 1:10:50 am ******/
+/****** Object:  Table [dbo].[Shopping]    Script Date: 15/04/2020 10:27:59 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ShoppingList](
+CREATE TABLE [dbo].[Shopping](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[UserId] [bigint] NOT NULL,
-	[CreatedOn] [datetime2](7) NOT NULL
+	[ShoppingDate] [datetime2](7) NOT NULL,
+	[CreatedOnUtc] [datetime2](7) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShoppingListItem]    Script Date: 14/04/2020 1:10:50 am ******/
+/****** Object:  Table [dbo].[ShoppingItem]    Script Date: 15/04/2020 10:27:59 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ShoppingListItem](
-	[ShoppingListItemId] [bigint] IDENTITY(1,1) NOT NULL,
-	[ShoppingListId] [bigint] NOT NULL,
+CREATE TABLE [dbo].[ShoppingItem](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[ShoppingId] [bigint] NOT NULL,
 	[Store] [varchar](50) NOT NULL,
 	[ItemName] [varchar](50) NOT NULL,
 	[ItemBrand] [varchar](50) NOT NULL,
 	[ItemQuantity] [decimal](18, 0) NOT NULL,
 	[ItemPrice] [decimal](18, 0) NOT NULL,
 	[ItemPriority] [int] NOT NULL,
+	[ItemStatus] [int] NOT NULL,
 	[ItemRemark] [varchar](255) NOT NULL,
 	[CreatedBy] [bigint] NOT NULL,
 	[CreatedOnUtc] [datetime2](7) NOT NULL,
@@ -112,29 +114,35 @@ CREATE TABLE [dbo].[ShoppingListItem](
 	[ModifiedOnUtc] [datetime2](7) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShoppingListItemImage]    Script Date: 14/04/2020 1:10:50 am ******/
+/****** Object:  Table [dbo].[ShoppingItemImage]    Script Date: 15/04/2020 10:27:59 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ShoppingListItemImage](
+CREATE TABLE [dbo].[ShoppingItemImage](
 	[Id] [bigint] NOT NULL,
-	[ShoppingListItemId] [bigint] NOT NULL,
+	[ShoppingItemId] [bigint] NOT NULL,
+	[ImageName] [varchar](255) NOT NULL,
+	[ImageFile] [varbinary](max) NOT NULL,
 	[CreatedBy] [bigint] NOT NULL,
 	[CreatedOnUtc] [datetime2](7) NOT NULL
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 14/04/2020 1:10:50 am ******/
+/****** Object:  Table [dbo].[User]    Script Date: 15/04/2020 10:27:59 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[User](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
-	[UserName] [varchar](50) NOT NULL
+	[Username] [varchar](50) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+	[FirstName] [varchar](50) NOT NULL,
+	[LastName] [varchar](50) NOT NULL,
+	[CreatedOnUtc] [datetime2](7) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserAccess]    Script Date: 14/04/2020 1:10:50 am ******/
+/****** Object:  Table [dbo].[UserAccess]    Script Date: 15/04/2020 10:27:59 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -144,7 +152,7 @@ CREATE TABLE [dbo].[UserAccess](
 	[AuthorizedUserId] [bigint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserShopping]    Script Date: 14/04/2020 1:10:50 am ******/
+/****** Object:  Table [dbo].[UserShopping]    Script Date: 15/04/2020 10:27:59 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

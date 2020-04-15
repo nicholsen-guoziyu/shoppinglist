@@ -13,6 +13,8 @@ namespace ShoppingList.Business.ShoppingDomain.Model
 
         public byte[] ImageFile { get; set; }
 
+        public long CreatedBy { get; set; }
+
         public DateTime CreatedOnUtc { get; set; }
     }
 }

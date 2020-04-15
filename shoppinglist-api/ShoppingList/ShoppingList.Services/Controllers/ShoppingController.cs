@@ -12,7 +12,7 @@ using ShoppingList.Services.Model.Shopping;
 
 namespace ShoppingList.Services.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/shopping")]
     [ApiController]
     public class ShoppingController : ControllerBase
     {
@@ -63,12 +63,14 @@ namespace ShoppingList.Services.Controllers
                     {
                         if(shoppingItemImage.ShoppingItemId == shoppingItem.Id)
                         {
-                            shoppingItemModel.ItemImageUrlList.Add(Url.Action("Get", 
-                                "ShoppingItemImageController", new { id = shoppingItemImage.Id }));
+                            shoppingItemModel.ItemImageUrlList.Add(Url.Action("GetShoppingItemImage", 
+                                                new { id = shoppingItemImage.Id }));
                         }
                     }
                     
                     shoppingItemModelList.Add(shoppingItemModel);
+
+                    counter++;
                 }
             }
 
@@ -78,7 +80,7 @@ namespace ShoppingList.Services.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetShoppingImage([FromQuery]long shoppingItemImageId)
+        public async Task<IActionResult> GetShoppingItemImage([FromQuery]long shoppingItemImageId)
         {
             //TODO validate this shoppingItemImageId belong to the current logged in user
 

@@ -25,6 +25,12 @@ namespace ShoppingList.Business.ShoppingDomain.Model
 
         public string ItemRemark { get; set; }
 
+        public long CreatedBy { get; set; }
+
         public DateTime CreatedOnUtc { get; set; }
+
+        public long ModifiedBy { get; set; }
+
+        public DateTime ModifiedOnUtc { get; set; }
     }
 }
