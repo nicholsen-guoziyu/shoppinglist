@@ -7,8 +7,6 @@ namespace ShoppingList.Services.Model.Shopping
     {
         public long Id { get; set; }
 
-        public DateTime ShoppingDate { get; set; }
-
         public int Index { get; set; }
 
         public string Store { get; set; }

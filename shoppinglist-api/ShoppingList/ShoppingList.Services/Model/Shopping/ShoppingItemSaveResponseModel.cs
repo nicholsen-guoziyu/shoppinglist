@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingList.Services.Model.Shopping
 {
-    public class ShoppingItemCreateResponse
+    public class ShoppingItemSaveResponseModel
     {
         public long ShoppingItemId { get; set; }
 

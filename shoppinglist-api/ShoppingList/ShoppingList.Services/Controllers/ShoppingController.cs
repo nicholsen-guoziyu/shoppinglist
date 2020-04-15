@@ -83,26 +83,46 @@ namespace ShoppingList.Services.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromForm]ShoppingItemCreateRequestModel shoppingItemRequest, IFormFile imageFile)
+        public async Task<IActionResult> CreateShopping([FromQuery]DateTime shoppingDate)
+        {
+            //TODO validate shoppingDate argument to make sure it is valid date
+            if (ModelState.IsValid)
+            {
+                long shoppingId = 0;
+                Shopping shopping = await _shoppingBusiness.GetShopping(shoppingDate);
+                if (shopping == null || shopping.Id <= 0)
+                {
+                    Shopping newShopping = new Shopping();
+                    newShopping.UserId = 1;
+                    newShopping.ShoppingDate = shoppingDate;
+                    newShopping.CreatedOnUtc = DateTime.UtcNow;
+                    shoppingId = await _shoppingBusiness.CreateShopping(newShopping);
+                }
+                else
+                {
+                    shoppingId = shopping.Id;
+                }
+
+                return Ok(shoppingId);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromForm]ShoppingItemSaveRequestModel shoppingItemRequest, IFormFile imageFile)
         {
             if(ModelState.IsValid)
             {
                 long shoppingId = 0;
                 if(shoppingItemRequest.Id <= 0)
                 {
-                    Shopping shopping = await _shoppingBusiness.GetShopping(shoppingItemRequest.ShoppingDate);
-                    if(shopping == null || shopping.Id <= 0)
-                    {
-                        Shopping newShopping = new Shopping();
-                        newShopping.UserId = 1;
-                        newShopping.ShoppingDate = shoppingItemRequest.ShoppingDate;
-                        newShopping.CreatedOnUtc = DateTime.UtcNow;
-                        shoppingId = await _shoppingBusiness.CreateShopping(newShopping);
-                    }
-
                     if(shoppingId > 0)
                     {
                         ShoppingItem newShoppingItem = new ShoppingItem();
+                        newShoppingItem.ShoppingId = shoppingItemRequest.ShoppingId;
                         newShoppingItem.Store = shoppingItemRequest.Store;
                         newShoppingItem.ItemName = shoppingItemRequest.ItemName;
                         newShoppingItem.ItemBrand = shoppingItemRequest.ItemBrand;
@@ -119,7 +139,7 @@ namespace ShoppingList.Services.Controllers
                         {
                             ShoppingItemImage newShoppingItemimage = new ShoppingItemImage();
                             newShoppingItemimage.ShoppingItemId = shoppingItemId;
-                            //TODO manipulate image name to prevent duplicate
+                            //TODO manipulate image name to prevent duplicate for every upload
                             newShoppingItemimage.ImageName = shoppingItemRequest.ImageName;
                             using (var stream = new MemoryStream())
                             {
@@ -131,13 +151,61 @@ namespace ShoppingList.Services.Controllers
                             shoppingItemImageId = await _shoppingBusiness.CreateShoppingItemImage(newShoppingItemimage);
                         }
 
-                        ShoppingItemCreateResponse response = new ShoppingItemCreateResponse();
+                        ShoppingItemSaveResponseModel response = new ShoppingItemSaveResponseModel();
                         response.ShoppingItemId = shoppingItemId;
                         response.ShoppingItemImageId = shoppingItemImageId;
 
                         return Ok(response);
                     }
                 }
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update([FromForm]ShoppingItemSaveRequestModel shoppingItemRequest, IFormFile imageFile)
+        {
+            if (ModelState.IsValid)
+            {
+                //TODO validate this shopping item id and shopping id belong to the current logged in user
+                //TODO validate this shopping item id is belong to the current shopping id and shopping date
+
+                ShoppingItem shoppingItem = await _shoppingBusiness.GetShoppingItem(shoppingItemRequest.Id);
+                shoppingItem.Store = shoppingItemRequest.Store;
+                shoppingItem.ItemName = shoppingItemRequest.ItemName;
+                shoppingItem.ItemBrand = shoppingItemRequest.ItemBrand;
+                shoppingItem.ItemQuantity = shoppingItemRequest.ItemQuantity;
+                shoppingItem.ItemPrice = shoppingItemRequest.ItemPrice;
+                shoppingItem.ItemPriority = shoppingItemRequest.ItemPriority;
+                shoppingItem.ItemStatus = shoppingItemRequest.ItemStatus;
+                shoppingItem.ItemRemark = shoppingItemRequest.ItemRemark;
+
+                await _shoppingBusiness.UpdateShoppingItem(shoppingItem);
+                long shoppingItemImageId = 0;
+                if (imageFile != null)
+                {
+                    ShoppingItemImage newShoppingItemimage = new ShoppingItemImage();
+                    newShoppingItemimage.ShoppingItemId = shoppingItemRequest.Id;
+                    //TODO manipulate image name to prevent duplicate
+                    newShoppingItemimage.ImageName = shoppingItemRequest.ImageName;
+                    using (var stream = new MemoryStream())
+                    {
+                        imageFile.OpenReadStream().CopyTo(stream);
+                        newShoppingItemimage.ImageFile = stream.ToArray();
+                    }
+                    newShoppingItemimage.CreatedOnUtc = DateTime.UtcNow;
+
+                    shoppingItemImageId = await _shoppingBusiness.CreateShoppingItemImage(newShoppingItemimage);
+                }
+
+                ShoppingItemSaveResponseModel response = new ShoppingItemSaveResponseModel();
+                response.ShoppingItemId = shoppingItemRequest.Id;
+                response.ShoppingItemImageId = shoppingItemImageId;
+
+                return Ok(response);
             }
 
             return BadRequest(ModelState);
