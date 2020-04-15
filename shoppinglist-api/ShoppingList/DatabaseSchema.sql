@@ -120,7 +120,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ShoppingItemImage](
-	[Id] [bigint] NOT NULL,
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[ShoppingItemId] [bigint] NOT NULL,
 	[ImageName] [varchar](255) NOT NULL,
 	[ImageFile] [varbinary](max) NOT NULL,

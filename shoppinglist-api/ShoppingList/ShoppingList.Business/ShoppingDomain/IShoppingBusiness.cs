@@ -25,8 +25,6 @@ namespace ShoppingList.Business.ShoppingDomain
 
         Task<long> CreateShoppingItem(ShoppingItem shoppingItem);
 
-        Task<PaginatedList<ShoppingItem>> GetShoppingItems(DateTime shoppingDate, int dataIndex, int dataSize);
-
         Task<PaginatedList<ShoppingItem>> GetShoppingItems(long shoppingId, int dataIndex, int dataSize);
 
         Task<ShoppingItem> GetShoppingItem(long ShoppingItemId);

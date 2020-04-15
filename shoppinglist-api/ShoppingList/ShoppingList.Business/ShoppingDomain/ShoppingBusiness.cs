@@ -31,7 +31,7 @@ namespace ShoppingList.Business.ShoppingDomain
 
         public async Task<Shopping> GetShopping(DateTime shoppingDate)
         {
-            return await _shoppingRepository.GetEntityAsync(entity => DateTime.Compare(entity.ShoppingDate.Date, shoppingDate.Date) == 0);
+            return await _shoppingRepository.GetEntityAsync(entity => entity.ShoppingDate == shoppingDate);
         }
 
         public Task<int> UpdateShopping(Shopping shopping)
@@ -56,13 +56,6 @@ namespace ShoppingList.Business.ShoppingDomain
         public Task<ShoppingItem> GetShoppingItem(long ShoppingItemId)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<PaginatedList<ShoppingItem>> GetShoppingItems(DateTime shoppingDate, int dataIndex, int dataSize)
-        {
-            var shopping = await GetShopping(shoppingDate);
-
-            return await GetShoppingItems(shopping.Id, dataIndex, dataSize);
         }
 
         public async Task<PaginatedList<ShoppingItem>> GetShoppingItems(long shoppingId, int dataIndex, int dataSize)

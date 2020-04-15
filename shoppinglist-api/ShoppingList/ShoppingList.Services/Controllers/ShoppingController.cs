@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingList.Business.ShoppingDomain;
 using ShoppingList.Business.ShoppingDomain.Model;
+using ShoppingList.Core.Web.Image;
 using ShoppingList.Data;
 using ShoppingList.Services.Model.Shopping;
 
@@ -25,17 +26,21 @@ namespace ShoppingList.Services.Controllers
         [HttpGet("{shoppingDate}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Get([FromQuery]DateTime shoppingDate)
+        public async Task<IActionResult> Get(DateTime shoppingDate)
         {
             //TODO check if current log in user is the same userId or if different, then whether the current logged in user has access to this user id. Otherwise return unauthorized
-
-            PaginatedList<ShoppingItem> shoppingItems = await _shoppingBusiness.GetShoppingItems(shoppingDate, 0, int.MaxValue);
+            var shopping = await _shoppingBusiness.GetShopping(shoppingDate);
+            if(shopping == null)
+            {
+                //TODO redirect to Create Shopping page
+            }
+            PaginatedList<ShoppingItem> shoppingItems = await _shoppingBusiness.GetShoppingItems(shopping.Id, 1, 100);
             List<long> shoppingItemIdList = new List<long>();
             foreach(ShoppingItem shoppingItem in shoppingItems)
             {
                 shoppingItemIdList.Add(shoppingItem.Id);
             }
-            PaginatedList<ShoppingItemImage> shoppingItemImages = await _shoppingBusiness.GetShoppingItemImages(shoppingItemIdList, 0, int.MaxValue);
+            PaginatedList<ShoppingItemImage> shoppingItemImages = await _shoppingBusiness.GetShoppingItemImages(shoppingItemIdList, 1, 100);
 
             List<ShoppingItemModel> shoppingItemModelList = new List<ShoppingItemModel>();
             if(shoppingItems == null || shoppingItems.Count() <= 0)
@@ -61,13 +66,15 @@ namespace ShoppingList.Services.Controllers
                     shoppingItemModel.ItemRemark = shoppingItem.ItemRemark;
                     
                     shoppingItemModel.ItemImageUrlList = new List<string>();
-                    foreach(ShoppingItemImage shoppingItemImage in shoppingItemImages)
+
+                    List<ShoppingItemImage> sortedImages = shoppingItemImages
+                                    .Where(shoppingItemImage => shoppingItemImage.ShoppingItemId == shoppingItem.Id)
+                                    .OrderByDescending(o => o.CreatedOnUtc).ToList();
+
+                    foreach (ShoppingItemImage shoppingItemImage in sortedImages)
                     {
-                        if(shoppingItemImage.ShoppingItemId == shoppingItem.Id)
-                        {
-                            shoppingItemModel.ItemImageUrlList.Add(Url.Action("GetShoppingItemImage", 
-                                                new { id = shoppingItemImage.Id }));
-                        }
+                        //TODO change the below url to dynamic URL using URL object
+                        shoppingItemModel.ItemImageUrlList.Add("https://localhost:44367/api/shopping/shoppingitemimage/" + shoppingItemImage.Id.ToString());
                     }
                     
                     shoppingItemModelList.Add(shoppingItemModel);
@@ -82,14 +89,16 @@ namespace ShoppingList.Services.Controllers
         [HttpGet("shoppingitemimage/{shoppingItemImageId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetShoppingItemImage([FromQuery]long shoppingItemImageId)
+        public async Task<IActionResult> GetShoppingItemImage(long shoppingItemImageId)
         {
             //TODO validate this shoppingItemImageId belong to the current logged in user
 
             ShoppingItemImage shoppingItemImage = await _shoppingBusiness.GetShoppingItemImage(shoppingItemImageId);
             if (shoppingItemImage != null)
             {
-                return File(shoppingItemImage.ImageFile, "image/png", shoppingItemImage.ImageName);
+                return File(shoppingItemImage.ImageFile, 
+                    ImageHelper.GetContentType(System.IO.Path.GetExtension(shoppingItemImage.ImageName)), 
+                    shoppingItemImage.ImageName);
             }
 
             return BadRequest(ModelState);

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ShoppingList.Business\ShoppingList.Business.csproj" />
+    <ProjectReference Include="..\ShoppingList.Core.Web\ShoppingList.Core.Web.csproj" />
     <ProjectReference Include="..\ShoppingList.Data.MsSqlServer\ShoppingList.Data.MsSqlServer.csproj" />
     <ProjectReference Include="..\ShoppingList.Data\ShoppingList.Data.csproj" />
   </ItemGroup>
