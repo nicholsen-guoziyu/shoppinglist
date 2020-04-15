@@ -29,9 +29,9 @@ namespace ShoppingList.Business.ShoppingDomain
             return await _shoppingRepository.CreateWithInt64IdentityAsync(shopping);
         }
 
-        public Task<Shopping> GetShopping(DateTime shoppingDate)
+        public async Task<Shopping> GetShopping(DateTime shoppingDate)
         {
-            throw new NotImplementedException();
+            return await _shoppingRepository.GetEntityAsync(entity => DateTime.Compare(entity.ShoppingDate.Date, shoppingDate.Date) == 0);
         }
 
         public Task<int> UpdateShopping(Shopping shopping)

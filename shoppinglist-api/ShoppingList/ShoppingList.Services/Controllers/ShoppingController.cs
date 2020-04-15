@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -61,8 +62,8 @@ namespace ShoppingList.Services.Controllers
                     shoppingItemModel.ItemPriority = shoppingItem.ItemPriority;
                     shoppingItemModel.ItemStatus = shoppingItem.ItemStatus;
                     shoppingItemModel.ItemRemark = shoppingItem.ItemRemark;
-                    shoppingItemModel.ItemImageUrlList = new List<string>();
                     
+                    shoppingItemModel.ItemImageUrlList = new List<string>();
                     foreach(ShoppingItemImage shoppingItemImage in shoppingItemImages)
                     {
                         if(shoppingItemImage.ShoppingItemId == shoppingItem.Id)
@@ -82,11 +83,61 @@ namespace ShoppingList.Services.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromForm]ShoppingItemModel shoppingItemModel, IFormFile imageFile)
+        public async Task<IActionResult> Create([FromForm]ShoppingItemCreateRequestModel shoppingItemRequest, IFormFile imageFile)
         {
             if(ModelState.IsValid)
             {
+                long shoppingId = 0;
+                if(shoppingItemRequest.Id <= 0)
+                {
+                    Shopping shopping = await _shoppingBusiness.GetShopping(shoppingItemRequest.ShoppingDate);
+                    if(shopping == null || shopping.Id <= 0)
+                    {
+                        Shopping newShopping = new Shopping();
+                        newShopping.UserId = 1;
+                        newShopping.ShoppingDate = shoppingItemRequest.ShoppingDate;
+                        newShopping.CreatedOnUtc = DateTime.UtcNow;
+                        shoppingId = await _shoppingBusiness.CreateShopping(newShopping);
+                    }
 
+                    if(shoppingId > 0)
+                    {
+                        ShoppingItem newShoppingItem = new ShoppingItem();
+                        newShoppingItem.Store = shoppingItemRequest.Store;
+                        newShoppingItem.ItemName = shoppingItemRequest.ItemName;
+                        newShoppingItem.ItemBrand = shoppingItemRequest.ItemBrand;
+                        newShoppingItem.ItemQuantity = shoppingItemRequest.ItemQuantity;
+                        newShoppingItem.ItemPrice = shoppingItemRequest.ItemPrice;
+                        newShoppingItem.ItemPriority = shoppingItemRequest.ItemPriority;
+                        newShoppingItem.ItemStatus = shoppingItemRequest.ItemStatus;
+                        newShoppingItem.ItemRemark = shoppingItemRequest.ItemRemark;
+                        newShoppingItem.CreatedOnUtc = DateTime.UtcNow;
+
+                        long shoppingItemId = await _shoppingBusiness.CreateShoppingItem(newShoppingItem);
+                        long shoppingItemImageId = 0;
+                        if (imageFile != null)
+                        {
+                            ShoppingItemImage newShoppingItemimage = new ShoppingItemImage();
+                            newShoppingItemimage.ShoppingItemId = shoppingItemId;
+                            //TODO manipulate image name to prevent duplicate
+                            newShoppingItemimage.ImageName = shoppingItemRequest.ImageName;
+                            using (var stream = new MemoryStream())
+                            {
+                                imageFile.OpenReadStream().CopyTo(stream);
+                                newShoppingItemimage.ImageFile = stream.ToArray();
+                            }
+                            newShoppingItemimage.CreatedOnUtc = DateTime.UtcNow;
+
+                            shoppingItemImageId = await _shoppingBusiness.CreateShoppingItemImage(newShoppingItemimage);
+                        }
+
+                        ShoppingItemCreateResponse response = new ShoppingItemCreateResponse();
+                        response.ShoppingItemId = shoppingItemId;
+                        response.ShoppingItemImageId = shoppingItemImageId;
+
+                        return Ok(response);
+                    }
+                }
             }
 
             return BadRequest(ModelState);
