@@ -24,9 +24,9 @@ namespace ShoppingList.Business.ShoppingDomain
 
         #region Shopping
 
-        public Task<long> CreateShopping(Shopping shopping)
+        public async Task<long> CreateShopping(Shopping shopping)
         {
-            throw new NotImplementedException();
+            return await _shoppingRepository.CreateWithInt64IdentityAsync(shopping);
         }
 
         public Task<Shopping> GetShopping(DateTime shoppingDate)
@@ -48,9 +48,9 @@ namespace ShoppingList.Business.ShoppingDomain
 
         #region ShoppingItem
 
-        public Task<int> CreateShoppingItem(ShoppingItem shoppingItem)
+        public async Task<long> CreateShoppingItem(ShoppingItem shoppingItem)
         {
-            throw new NotImplementedException();
+            return await _shoppingItemRepository.CreateWithInt64IdentityAsync(shoppingItem);
         }
 
         public Task<ShoppingItem> GetShoppingItem(long ShoppingItemId)
@@ -95,9 +95,9 @@ namespace ShoppingList.Business.ShoppingDomain
 
         #region ShoppingItemImage
 
-        public Task<int> CreateShoppingItemImage(ShoppingItemImage shoppingItemImage)
+        public async Task<long> CreateShoppingItemImage(ShoppingItemImage shoppingItemImage)
         {
-            throw new NotImplementedException();
+            return await _shoppingItemImageRepository.CreateWithInt64IdentityAsync(shoppingItemImage);
         }
 
         public async Task<PaginatedList<ShoppingItemImage>> GetShoppingItemImages(List<long> shoppingItemIdList, int dataIndex, int dataSize)
@@ -106,7 +106,12 @@ namespace ShoppingList.Business.ShoppingDomain
             var filteredItemIdList = shoppingItemIdList.Skip((dataIndex - 1) * dataSize).Take(dataSize);
             var query = from shoppingItemImage in _shoppingItemImageRepository.Entities
                         where filteredItemIdList.Contains(shoppingItemImage.ShoppingItemId)
-                        select shoppingItemImage;
+                        select new ShoppingItemImage
+                        {
+                            Id = shoppingItemImage.Id,
+                            ShoppingItemId = shoppingItemImage.ShoppingItemId,
+                            ImageName = shoppingItemImage.ImageName
+                        };
             return new PaginatedList<ShoppingItemImage>(await _shoppingItemImageRepository.GetEntitiesAsync(query), count, dataIndex, dataSize);
         }
 

@@ -11,6 +11,8 @@ namespace ShoppingList.Business.ShoppingDomain.Model
 
         public string ImageName { get; set; }
 
+        public byte[] ImageFile { get; set; }
+
         public DateTime CreatedOnUtc { get; set; }
     }
 }

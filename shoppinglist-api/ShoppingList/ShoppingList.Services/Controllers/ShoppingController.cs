@@ -48,6 +48,7 @@ namespace ShoppingList.Services.Controllers
             else
             {
                 int counter = 0;
+
                 foreach(ShoppingItem shoppingItem in shoppingItems)
                 {
                     ShoppingItemModel shoppingItemModel = new ShoppingItemModel();
@@ -61,18 +62,34 @@ namespace ShoppingList.Services.Controllers
                     shoppingItemModel.ItemStatus = shoppingItem.ItemStatus;
                     shoppingItemModel.ItemRemark = shoppingItem.ItemRemark;
                     shoppingItemModel.ItemImageUrlList = new List<string>();
+                    
                     foreach(ShoppingItemImage shoppingItemImage in shoppingItemImages)
                     {
                         if(shoppingItemImage.ShoppingItemId == shoppingItem.Id)
                         {
-                            shoppingItemModel.ItemImageUrlList.Add(Url.Action("Get", "ShoppingItemImage", new { id = shoppingItemImage.Id }));
+                            shoppingItemModel.ItemImageUrlList.Add(Url.Action("Get", 
+                                "ShoppingItemImageController", new { id = shoppingItemImage.Id }));
                         }
                     }
+                    
                     shoppingItemModelList.Add(shoppingItemModel);
                 }
             }
 
             return Ok(shoppingItemModelList);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromForm]ShoppingItemModel shoppingItemModel, IFormFile imageFile)
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
+
+            return BadRequest(ModelState);
         }
     }
 }

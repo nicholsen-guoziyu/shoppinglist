@@ -23,7 +23,7 @@ namespace ShoppingList.Business.ShoppingDomain
 
         #region ShoppingItem
 
-        Task<int> CreateShoppingItem(ShoppingItem shoppingItem);
+        Task<long> CreateShoppingItem(ShoppingItem shoppingItem);
 
         Task<PaginatedList<ShoppingItem>> GetShoppingItems(DateTime shoppingDate, int dataIndex, int dataSize);
 
@@ -39,7 +39,7 @@ namespace ShoppingList.Business.ShoppingDomain
 
         #region ShoppingItemImage
 
-        Task<int> CreateShoppingItemImage(ShoppingItemImage shoppingItemImage);
+        Task<long> CreateShoppingItemImage(ShoppingItemImage shoppingItemImage);
 
         Task<PaginatedList<ShoppingItemImage>> GetShoppingItemImages(List<long> shoppingItems, int dataIndex, int dataSize);
 
