@@ -25,6 +25,6 @@ namespace ShoppingList.Services.Model.Shopping
 
         public string ItemRemark { get; set; }
 
-        public List<string> ItemImageUrl { get; set; }
+        public List<string> ItemImageUrlList { get; set; }
     }
 }

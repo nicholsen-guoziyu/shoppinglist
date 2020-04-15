@@ -9,6 +9,8 @@ namespace ShoppingList.Business.ShoppingDomain
 {
     public interface IShoppingBusiness
     {
+        #region Shopping
+
         Task<long> CreateShopping(Shopping shopping);
 
         Task<Shopping> GetShopping(DateTime shoppingDate);
@@ -17,11 +19,15 @@ namespace ShoppingList.Business.ShoppingDomain
 
         Task<int> DeleteShopping(long shoppingId);
 
+        #endregion Shopping
+
+        #region ShoppingItem
+
         Task<int> CreateShoppingItem(ShoppingItem shoppingItem);
 
-        Task<PaginatedList<ShoppingItem>> GetShoppingItems(long shoppingId);
+        Task<PaginatedList<ShoppingItem>> GetShoppingItems(DateTime shoppingDate, int dataIndex, int dataSize);
 
-        Task<PaginatedList<ShoppingItem>> GetShoppingItems(DateTime shoppingDate);
+        Task<PaginatedList<ShoppingItem>> GetShoppingItems(long shoppingId, int dataIndex, int dataSize);
 
         Task<ShoppingItem> GetShoppingItem(long ShoppingItemId);
 
@@ -29,10 +35,18 @@ namespace ShoppingList.Business.ShoppingDomain
 
         Task<int> DeleteShoppingItem(ShoppingItem shoppingItem);
 
+        #endregion ShoppingItem
+
+        #region ShoppingItemImage
+
         Task<int> CreateShoppingItemImage(ShoppingItemImage shoppingItemImage);
+
+        Task<PaginatedList<ShoppingItemImage>> GetShoppingItemImages(List<long> shoppingItems, int dataIndex, int dataSize);
 
         Task<int> UpdateShoppingItemImage(ShoppingItemImage shoppingItemImage);
 
         Task<int> DeleteShoppingItemImage(ShoppingItemImage shoppingItemImage);
+
+        #endregion ShoppingItemImage
     }
 }

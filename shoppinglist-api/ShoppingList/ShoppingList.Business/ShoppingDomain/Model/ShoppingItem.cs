@@ -15,7 +15,7 @@ namespace ShoppingList.Business.ShoppingDomain.Model
 
         public string ItemBrand { get; set; }
 
-        public string ItemQuantity { get; set; }
+        public decimal ItemQuantity { get; set; }
 
         public decimal ItemPrice { get; set; }
 

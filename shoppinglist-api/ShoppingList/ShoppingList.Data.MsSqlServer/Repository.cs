@@ -206,6 +206,11 @@ namespace ShoppingList.Data.MsSqlServer
             return new PaginatedList<T>(items, count, dataIndex, dataSize);
         }
 
+        public async Task<List<T>> GetEntitiesAsync(System.Linq.IQueryable<T> dataSource)
+        {
+            return await dataSource.ToListAsync();
+        }
+
         #endregion Read
 
         #region Update
