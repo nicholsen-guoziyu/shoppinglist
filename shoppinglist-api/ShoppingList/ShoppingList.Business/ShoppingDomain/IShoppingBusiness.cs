@@ -33,7 +33,7 @@ namespace ShoppingList.Business.ShoppingDomain
 
         Task<int> UpdateShoppingItem(ShoppingItem shoppingItem);
 
-        Task<int> DeleteShoppingItem(ShoppingItem shoppingItem);
+        Task<int> DeleteShoppingItem(long shoppingItemId);
 
         #endregion ShoppingItem
 
@@ -41,11 +41,15 @@ namespace ShoppingList.Business.ShoppingDomain
 
         Task<long> CreateShoppingItemImage(ShoppingItemImage shoppingItemImage);
 
+        Task<ShoppingItemImage> GetShoppingItemImage(long shoppingItemImageId);
+
         Task<PaginatedList<ShoppingItemImage>> GetShoppingItemImages(List<long> shoppingItems, int dataIndex, int dataSize);
 
         Task<int> UpdateShoppingItemImage(ShoppingItemImage shoppingItemImage);
 
-        Task<int> DeleteShoppingItemImage(ShoppingItemImage shoppingItemImage);
+        Task<int> DeleteShoppingItemImage(long shoppingItemImageId);
+
+        Task<int> DeleteShoppingItemImages(long shoppingItemId);
 
         #endregion ShoppingItemImage
     }

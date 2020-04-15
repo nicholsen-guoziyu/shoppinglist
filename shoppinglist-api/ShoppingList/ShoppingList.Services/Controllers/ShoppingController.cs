@@ -23,13 +23,8 @@ namespace ShoppingList.Services.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]long userId, DateTime shoppingDate)
+        public async Task<IActionResult> Get([FromQuery]DateTime shoppingDate)
         {
-            if(userId <= 0)
-            {
-                return NotFound();
-            }
-
             //TODO check if current log in user is the same userId or if different, then whether the current logged in user has access to this user id. Otherwise return unauthorized
 
             PaginatedList<ShoppingItem> shoppingItems = await _shoppingBusiness.GetShoppingItems(shoppingDate, 0, int.MaxValue);
@@ -78,6 +73,22 @@ namespace ShoppingList.Services.Controllers
             }
 
             return Ok(shoppingItemModelList);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetShoppingImage([FromQuery]long shoppingItemImageId)
+        {
+            //TODO validate this shoppingItemImageId belong to the current logged in user
+
+            ShoppingItemImage shoppingItemImage = await _shoppingBusiness.GetShoppingItemImage(shoppingItemImageId);
+            if (shoppingItemImage != null)
+            {
+                return File(shoppingItemImage.ImageFile, "image/png", shoppingItemImage.ImageName);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
@@ -209,6 +220,17 @@ namespace ShoppingList.Services.Controllers
             }
 
             return BadRequest(ModelState);
+        }
+
+        [HttpDelete("{shoppingItemId}")]
+        public async Task<IActionResult> Delete(long shoppingItemId)
+        {
+            //TODO validate this shopping item id belong to the current logged in user
+
+            await _shoppingBusiness.DeleteShoppingItemImages(shoppingItemId);
+            await _shoppingBusiness.DeleteShoppingItem(shoppingItemId);
+
+            return Ok();
         }
     }
 }

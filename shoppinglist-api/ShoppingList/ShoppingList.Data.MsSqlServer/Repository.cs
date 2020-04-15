@@ -156,6 +156,21 @@ namespace ShoppingList.Data.MsSqlServer
             return totalRecords;
         }
 
+        public async Task<int> DeleteAsync(IQueryable<T> query)
+        {
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
+
+            int totalRecords = 0;
+
+            using (var dataConnection = GetDataProvider())
+            {
+                totalRecords = await query.DeleteAsync();
+            }
+
+            return totalRecords;
+        }
+
         public void Delete(IEnumerable<T> entities)
         {
             throw new NotImplementedException();

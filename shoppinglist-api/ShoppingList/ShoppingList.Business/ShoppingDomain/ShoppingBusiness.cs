@@ -81,14 +81,17 @@ namespace ShoppingList.Business.ShoppingDomain
             return await _shoppingItemRepository.GetEntitiesAsync(query, dataIndex, dataSize);
         }
 
-        public Task<int> UpdateShoppingItem(ShoppingItem shoppingItem)
+        public async Task<int> UpdateShoppingItem(ShoppingItem shoppingItem)
         {
-            throw new NotImplementedException();
+            return await _shoppingItemRepository.UpdateAsync(shoppingItem);
         }
 
-        public Task<int> DeleteShoppingItem(ShoppingItem shoppingItem)
+        public async Task<int> DeleteShoppingItem(long shoppingItemId)
         {
-            throw new NotImplementedException();
+            var shoppingItemQuery = _shoppingItemRepository.Entities
+                                .Where(shoppingItem => shoppingItem.Id == shoppingItemId);
+
+            return await _shoppingItemRepository.DeleteAsync(shoppingItemQuery);
         }
 
         #endregion ShoppingItem
@@ -98,6 +101,11 @@ namespace ShoppingList.Business.ShoppingDomain
         public async Task<long> CreateShoppingItemImage(ShoppingItemImage shoppingItemImage)
         {
             return await _shoppingItemImageRepository.CreateWithInt64IdentityAsync(shoppingItemImage);
+        }
+
+        public async Task<ShoppingItemImage> GetShoppingItemImage(long shoppingItemImageId)
+        {
+            return await _shoppingItemImageRepository.GetEntityAsync(entity => entity.Id == shoppingItemImageId);
         }
 
         public async Task<PaginatedList<ShoppingItemImage>> GetShoppingItemImages(List<long> shoppingItemIdList, int dataIndex, int dataSize)
@@ -112,6 +120,7 @@ namespace ShoppingList.Business.ShoppingDomain
                             ShoppingItemId = shoppingItemImage.ShoppingItemId,
                             ImageName = shoppingItemImage.ImageName
                         };
+
             return new PaginatedList<ShoppingItemImage>(await _shoppingItemImageRepository.GetEntitiesAsync(query), count, dataIndex, dataSize);
         }
 
@@ -120,9 +129,20 @@ namespace ShoppingList.Business.ShoppingDomain
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteShoppingItemImage(ShoppingItemImage shoppingItemImage)
+        public async Task<int> DeleteShoppingItemImage(long shoppingItemImageId)
         {
-            throw new NotImplementedException();
+            var query = _shoppingItemImageRepository.Entities
+                                .Where(shoppingItemImage => shoppingItemImage.Id == shoppingItemImageId);
+
+            return await _shoppingItemImageRepository.DeleteAsync(query);
+        }
+
+        public async Task<int> DeleteShoppingItemImages(long shoppingItemId)
+        {
+            var query = _shoppingItemImageRepository.Entities
+                                .Where(shoppingItemImage => shoppingItemImage.ShoppingItemId == shoppingItemId);
+
+            return await _shoppingItemImageRepository.DeleteAsync(query);
         }
 
         #endregion ShoppingItemImage

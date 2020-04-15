@@ -79,6 +79,13 @@ namespace ShoppingList.Data
         Task<int> DeleteAsync(T entity);
 
         /// <summary>
+        /// Asynchronous Delete
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>number of the deleted records</returns>
+        Task<int> DeleteAsync(IQueryable<T> query);
+
+        /// <summary>
         /// Synchronous Delete
         /// </summary>
         /// <param name="entities"></param>
