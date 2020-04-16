@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingList.Business.ShoppingDomain;
@@ -15,6 +16,7 @@ namespace ShoppingList.Services.Controllers
 {
     [Route("api/shopping")]
     [ApiController]
+    [EnableCors("ReactPolicy")] //TODO temporary
     public class ShoppingController : ControllerBase
     {
         private readonly IShoppingBusiness  _shoppingBusiness;
@@ -57,6 +59,7 @@ namespace ShoppingList.Services.Controllers
                     ShoppingItemModel shoppingItemModel = new ShoppingItemModel();
                     shoppingItemModel.Index = counter;
                     shoppingItemModel.Id = shoppingItem.Id;
+                    shoppingItemModel.Store = shoppingItem.Store;
                     shoppingItemModel.ItemName = shoppingItem.ItemName;
                     shoppingItemModel.ItemBrand = shoppingItem.ItemBrand;
                     shoppingItemModel.ItemQuantity = shoppingItem.ItemQuantity;

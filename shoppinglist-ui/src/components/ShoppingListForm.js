@@ -30,14 +30,17 @@ class ShoppingListForm extends Component
     }
 
     componentDidMount() {
-        fetch("https://localhost:44367/api/shopping")
+        let search = window.location.search;
+        let params = new URLSearchParams(search);
+        let shoppingDate = params.get('shoppingDate');
+        fetch("https://localhost:44367/api/shopping/" + shoppingDate)
         .then(res => res.json())
         .then(
             (result) => {
             this.setState({
                 isLoaded: true,
-                items: result.items,
-                filteredItems: result.items
+                items: result,
+                filteredItems: result
             });
             },
             // Note: it's important to handle errors here

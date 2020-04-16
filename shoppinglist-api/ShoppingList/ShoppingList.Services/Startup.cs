@@ -30,6 +30,12 @@ namespace ShoppingList.Services
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IShoppingBusiness), typeof(ShoppingBusiness));
+            services.AddCors(o => o.AddPolicy("ReactPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddControllers();
         }
 
@@ -45,12 +51,16 @@ namespace ShoppingList.Services
 
             app.UseRouting();
 
+            app.UseCors("ReactPolicy");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }
