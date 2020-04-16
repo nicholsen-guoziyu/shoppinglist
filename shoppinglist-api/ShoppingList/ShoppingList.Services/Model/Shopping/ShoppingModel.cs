@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ShoppingList.Services.Model.Shopping
 {
@@ -6,10 +7,6 @@ namespace ShoppingList.Services.Model.Shopping
     {
         public long Id { get; set; }
 
-        public long UserId { get; set; }
-
-        public DateTime ShoppingDate { get; set; }
-
-        public DateTime CreatedOn { get; set; }
+        public List<ShoppingItemModel> ShoppingItemModelList { get; set; }
     }
 }

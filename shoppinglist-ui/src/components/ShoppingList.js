@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { ShoppingApiUrl } from '../constants/ApiUrl';
 class ShoppingList extends Component
 {
     constructor(props)
@@ -14,12 +14,43 @@ class ShoppingList extends Component
 
     handleSaveClick(event)
     {
+        event.preventDefault();
         if(this.props.items[event.target.dataset.internalindex].itemId === 0)
         {
             //call the API to create new item in the server. the server will return the new id and image name
-            let itemId = 0;
-            let itemImageName = "";
-            this.props.onItemAdded(event, itemId, itemImageName);
+            let formData = new FormData();
+            formData.append('shoppingId', this.props.shoppingId);
+            formData.append('store', this.props.items[event.target.dataset.internalindex].store);
+            formData.append('itemName', this.props.items[event.target.dataset.internalindex].itemName);
+            formData.append('itemBrand', this.props.items[event.target.dataset.internalindex].itemBrand);
+            formData.append('itemQuantity', this.props.items[event.target.dataset.internalindex].itemQuantity);
+            formData.append('itemPrice', this.props.items[event.target.dataset.internalindex].itemPrice);
+            formData.append('itemPriority', this.props.items[event.target.dataset.internalindex].itemPriority);
+            formData.append('itemStatus', this.props.items[event.target.dataset.internalindex].itemStatus);
+            formData.append('itemRemark', this.props.items[event.target.dataset.internalindex].itemRemark);
+            formData.append('imageName', this.props.items[event.target.dataset.internalindex].imageName);
+            formData.append('imageFile', this.props.items[event.target.dataset.internalindex].selectedFile);
+            fetch(`${ShoppingApiUrl}`, {
+                method: 'post',
+                // headers: {
+                //     'Content-Type': 'application/json'
+                // },
+                // body: JSON.stringify({
+                //     name: this.state.name,
+                //     document: this.state.document,
+                //     email: this.state.email,
+                //     phone: this.state.phone
+                // })
+                body:formData
+            })
+            .then(res => res.json())
+            .then(shoppingItemResponse => {
+                alert(shoppingItemResponse.ShoppingItemId);
+                alert(shoppingItemResponse.ShoppingItemImageId);
+                this.props.onItemAdded(event, shoppingItemResponse.ShoppingItemId, shoppingItemResponse.ShoppingItemImageId);
+            })
+            .catch(err => console.log(err));
+            
         }
         else
         {
@@ -44,6 +75,7 @@ class ShoppingList extends Component
 
     handleItemCollected(event)
     {
+        event.preventDefault();
         //call the API to update the item status to Collected
         this.props.onItemCollected(event);
     }

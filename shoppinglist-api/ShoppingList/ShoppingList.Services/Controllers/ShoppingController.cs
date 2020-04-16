@@ -86,7 +86,11 @@ namespace ShoppingList.Services.Controllers
                 }
             }
 
-            return Ok(shoppingItemModelList);
+            ShoppingModel shoppingModel = new ShoppingModel();
+            shoppingModel.Id = shopping.Id;
+            shoppingModel.ShoppingItemModelList = shoppingItemModelList;
+
+            return Ok(shoppingModel);
         }
 
         [HttpGet("shoppingitemimage/{shoppingItemImageId}")]

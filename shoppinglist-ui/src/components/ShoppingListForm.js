@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import Calendar from './controls/Calendar';
 import ShoppingList from './ShoppingList'
 import ShoppingListTotal from './ShoppingListTotal'
+import { ShoppingApiUrl } from '../constants/ApiUrl';
 
 class ShoppingListForm extends Component
 {
     constructor(props)
     {
         super(props);
-        this.item = {index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageUrlList:""};
+        this.item = {index:0, itemId:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageUrlList:[], imageName:""};
+        this.itemId = 0;
         this.state = { 
             error: null,
             isLoaded: false,
@@ -33,15 +35,16 @@ class ShoppingListForm extends Component
         let search = window.location.search;
         let params = new URLSearchParams(search);
         let shoppingDate = params.get('shoppingDate');
-        fetch("https://localhost:44367/api/shopping/" + shoppingDate)
+        fetch(`${ShoppingApiUrl}/${shoppingDate}`)
         .then(res => res.json())
         .then(
             (result) => {
-            this.setState({
-                isLoaded: true,
-                items: result,
-                filteredItems: result
-            });
+                this.itemId = result.id;
+                this.setState({
+                    isLoaded: true,
+                    items: result.shoppingItemModelList,
+                    filteredItems: result.shoppingItemModelList
+                });
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -96,6 +99,7 @@ class ShoppingListForm extends Component
     {
         let items = [...this.state.items];
         items[event.target.dataset.index][event.target.dataset.name] = event.target.files[0];
+        items[event.target.dataset.index]["imageName"] = event.target.files[0].name;
         this.setState({ items }, () =>
             this.handleDataBind(this.state.filterText)
         );
@@ -177,7 +181,7 @@ class ShoppingListForm extends Component
                     <input type="text" id="SearchText" placeholder="Search Item" onChange={this.handleFilterTextChange} value={this.state.filterText} />
                     <button className="btn"><i className="fa fa-plus-square"></i></button>
                     <Calendar onDateClick={this.retrieveItems}></Calendar>
-                    <ShoppingList items={this.state.filteredItems} filterText={this.state.filterText} 
+                    <ShoppingList shoppingId = {this.itemId} items={this.state.filteredItems} filterText={this.state.filterText} 
                                         onItemAdded={this.handleItemAdded}
                                         onImageUpdated = {this.handleImageUpdated}
                                         onItemDeleted = {this.handleItemDeleted}
