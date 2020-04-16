@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ShoppingApiUrl } from '../constants/ApiUrl';
+import { ShoppingItemApiUrl } from '../constants/ApiUrl';
 class ShoppingList extends Component
 {
     constructor(props)
@@ -30,15 +30,9 @@ class ShoppingList extends Component
             formData.append('itemRemark', this.props.items[event.target.dataset.internalindex].itemRemark);
             formData.append('imageName', this.props.items[event.target.dataset.internalindex].imageName);
             formData.append('imageFile', this.props.items[event.target.dataset.internalindex].selectedFile);
-            fetch("https://localhost:44367/shopping/shoppingItem", 
+            fetch(`${ShoppingItemApiUrl}`, 
             {
                 method: 'POST',
-                // headers: {
-                //     'Content-Type': 'application/json'
-                // },
-                // body: JSON.stringify({
-                //     store: this.props.items[event.target.dataset.internalindex].store
-                // })
                 body:formData
             })
             .then(res => res.json())
