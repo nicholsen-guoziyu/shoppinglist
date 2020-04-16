@@ -14,9 +14,8 @@ using ShoppingList.Services.Model.Shopping;
 
 namespace ShoppingList.Services.Controllers
 {
-    [Route("api/shopping")]
     [ApiController]
-    [EnableCors("ReactPolicy")] //TODO temporary
+    [Route("[controller]")]
     public class ShoppingController : ControllerBase
     {
         private readonly IShoppingBusiness  _shoppingBusiness;
@@ -114,7 +113,7 @@ namespace ShoppingList.Services.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateShopping([FromQuery]DateTime shoppingDate)
+        public async Task<IActionResult> CreateShopping(DateTime shoppingDate)
         {
             //TODO validate shoppingDate argument to make sure it is valid date
             if (ModelState.IsValid)
@@ -140,7 +139,7 @@ namespace ShoppingList.Services.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost]
+        [HttpPost("shoppingItem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromForm]ShoppingItemSaveRequestModel shoppingItemRequest, IFormFile imageFile)

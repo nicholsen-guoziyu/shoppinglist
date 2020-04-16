@@ -1,1 +1,1 @@
-export const ShoppingApiUrl = 'https://localhost:44367/api/shopping';
+export const ShoppingApiUrl = 'https://localhost:44367/shopping';

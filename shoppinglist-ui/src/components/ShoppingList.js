@@ -30,16 +30,14 @@ class ShoppingList extends Component
             formData.append('itemRemark', this.props.items[event.target.dataset.internalindex].itemRemark);
             formData.append('imageName', this.props.items[event.target.dataset.internalindex].imageName);
             formData.append('imageFile', this.props.items[event.target.dataset.internalindex].selectedFile);
-            fetch(`${ShoppingApiUrl}`, {
-                method: 'post',
+            fetch("https://localhost:44367/shopping/shoppingItem", 
+            {
+                method: 'POST',
                 // headers: {
                 //     'Content-Type': 'application/json'
                 // },
                 // body: JSON.stringify({
-                //     name: this.state.name,
-                //     document: this.state.document,
-                //     email: this.state.email,
-                //     phone: this.state.phone
+                //     store: this.props.items[event.target.dataset.internalindex].store
                 // })
                 body:formData
             })
@@ -49,7 +47,9 @@ class ShoppingList extends Component
                 alert(shoppingItemResponse.ShoppingItemImageId);
                 this.props.onItemAdded(event, shoppingItemResponse.ShoppingItemId, shoppingItemResponse.ShoppingItemImageId);
             })
-            .catch(err => console.log(err));
+            .catch(
+                err => console.log(err)
+            );
             
         }
         else

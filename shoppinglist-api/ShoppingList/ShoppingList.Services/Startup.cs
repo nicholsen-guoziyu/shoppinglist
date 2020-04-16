@@ -28,14 +28,9 @@ namespace ShoppingList.Services
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(); //To be moved to better solution
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IShoppingBusiness), typeof(ShoppingBusiness));
-            services.AddCors(o => o.AddPolicy("ReactPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
             services.AddControllers();
         }
 
@@ -47,11 +42,17 @@ namespace ShoppingList.Services
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder =>
+            {
+                builder
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseCors("ReactPolicy");
 
             app.UseAuthorization();
 

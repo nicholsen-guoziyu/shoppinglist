@@ -5,7 +5,5 @@
         public long ShoppingId { get; set; }
 
         public string ImageName { get; set; }
-
-        public byte[] ImageFile { get; set; }
     }
 }
