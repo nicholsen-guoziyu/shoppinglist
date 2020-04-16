@@ -8,7 +8,7 @@ class ShoppingListForm extends Component
     constructor(props)
     {
         super(props);
-        this.item = {index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageName:""};
+        this.item = {index:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageUrlList:""};
         this.state = { 
             error: null,
             isLoaded: false,
@@ -116,7 +116,7 @@ class ShoppingListForm extends Component
     {
         let items = [...this.state.items];
         items[event.target.dataset.index]["itemId"] = itemId;
-        items[event.target.dataset.index]["itemImageName"] = itemImageName;
+        items[event.target.dataset.index]["itemImageUrlList"] = [...items[event.target.dataset.index]["itemImageUrlList"], itemImageName];
         this.setState({ items }, () =>
             this.handleDataBind(this.state.filterText)
         );
@@ -131,11 +131,11 @@ class ShoppingListForm extends Component
         );
     }
 
-    handleImageUpdated(event, imageName)
+    handleImageUpdated(event, itemImageName)
     {
         let items = [...this.state.items];
         items[event.target.dataset.index]["selectedFile"] = null;
-        items[event.target.dataset.index]["imageName"] = imageName;
+        items[event.target.dataset.index]["itemImageUrlList"] = [...items[event.target.dataset.index]["itemImageUrlList"], itemImageName];
         this.setState({ items }, () =>
             this.handleDataBind(this.state.filterText)
         );

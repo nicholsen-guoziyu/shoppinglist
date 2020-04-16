@@ -82,9 +82,12 @@ class ShoppingList extends Component
                     const itemRemark = `itemRemark-${idx}`;
                     const itemImageName = `itemImageName-${idx}`;
                     let image;
-                    if(this.props.items[idx].itemImageName !== "")
+                    if(this.props.items[idx].itemImageUrlList != null && this.props.items[idx].itemImageUrlList.length > 0)
                     {
-                        image = <img className="item-image" id={itemImageName} src={this.props.items[idx].itemImageName} alt="Item" />
+                        if(this.props.items[idx].itemImageUrlList[this.props.items[idx].itemImageUrlList.length - 1] != null)
+                        {
+                            image = <img className="item-image" id={itemImageName} src={this.props.items[idx].itemImageUrlList[this.props.items[idx].itemImageUrlList.length - 1]} alt="Item" />
+                        }
                     }
                     return(
                         <div className="ShoppingListItem" key={idx}>

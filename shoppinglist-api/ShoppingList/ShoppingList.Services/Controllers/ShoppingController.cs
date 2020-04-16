@@ -72,7 +72,7 @@ namespace ShoppingList.Services.Controllers
 
                     List<ShoppingItemImage> sortedImages = shoppingItemImages
                                     .Where(shoppingItemImage => shoppingItemImage.ShoppingItemId == shoppingItem.Id)
-                                    .OrderByDescending(o => o.CreatedOnUtc).ToList();
+                                    .OrderBy(o => o.CreatedOnUtc).ToList();
 
                     foreach (ShoppingItemImage shoppingItemImage in sortedImages)
                     {
