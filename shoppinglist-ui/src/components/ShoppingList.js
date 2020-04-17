@@ -99,6 +99,7 @@ class ShoppingList extends Component
 
     handleCollapsible(event)
     {
+        event.target.classList.toggle("inactive");
         let nextElement = event.target.nextElementSibling;
         if (nextElement.classList.contains("hide")) {
             nextElement.classList.remove("hide");
