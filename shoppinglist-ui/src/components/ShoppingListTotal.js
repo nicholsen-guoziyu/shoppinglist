@@ -13,8 +13,8 @@ class ShoppingListTotal extends Component
         }
         return(
             <div className="ShoppingListTotal">
-                <label className="item">Total </label>
-                <label className="item">${sum.toString()} </label>
+                <label className="item item-footer">Total </label>
+                <label className="item item-footer">${sum.toString()} </label>
             </div>
         )
     }

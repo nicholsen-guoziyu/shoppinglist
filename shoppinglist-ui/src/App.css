@@ -35,12 +35,13 @@ form{
   display: grid;
   grid-column:main;
   grid-template-columns: 10% auto 10%;
+  border: 1px solid #00ffff;
 }
 
 .ShoppingList {
   display: grid;
   grid-column: 1 / 4;
-  border: 1px solid #00ffff;
+  /* border: 1px solid #00ffff; */
   grid-template-rows: repeat(auto-fill, minmax(auto, 100%));
   grid-auto-rows: auto;
   grid-auto-flow: row dense;
@@ -48,7 +49,7 @@ form{
 
 .ShoppingListItem {
   display: grid;
-  border: 1px solid #00ffff;
+  /* border: 1px solid #00ffff; */
   grid-template-columns: 10% auto 10%;
   align-items: center;
 }
@@ -64,7 +65,7 @@ form{
 .ShoppingListItemDetail {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  border: 1px solid #00ffff;
+  /* border: 1px solid #00ffff; */
   grid-column-start: 1;
   grid-column-end: 4;
 }
@@ -80,8 +81,18 @@ form{
   display: grid;
   grid-column-start: 1;
   grid-column-end: 4;
-  border: 1px solid #00ffff;
-  grid-template-columns: 1fr auto;
+  /* border: 1px solid #00ffff; */
+  grid-template-columns: 2fr 1fr;
+}
+
+.addNewButton{
+  grid-column-start: 1;
+  grid-column-end: 4;
+  padding:5px;
+}
+
+.actionButton{
+  padding:5px;
 }
 
 .item-header {
@@ -101,9 +112,23 @@ form{
 
 .item {
   padding: 5px;
-  background-color: forestgreen;
+  background-color: #eaeaea;
   border: 1px solid #fff;
   width:100%;
+}
+
+.item-label {
+  padding: 5px;
+  background-color: #eaeaea;
+  border: 1px solid #fff;
+  width:100%;
+  text-align: right;
+  font:400 13.3333px Arial;
+}
+
+.item-footer{
+  background-color: #777;
+  font:400 13.3333px Arial;
 }
 
 /**Collapsible */
@@ -117,6 +142,10 @@ form{
   text-align: left;
   outline: none;
   font-size: 15px;
+}
+
+button, input, textarea {
+  padding-left:10px !important;
 }
 
 .active, .collapsible:hover {
