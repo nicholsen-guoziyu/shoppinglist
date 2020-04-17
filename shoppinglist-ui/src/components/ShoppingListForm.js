@@ -34,7 +34,15 @@ class ShoppingListForm extends Component
     componentDidMount() {
         let search = window.location.search;
         let params = new URLSearchParams(search);
-        let shoppingDate = params.get('shoppingDate');
+        let shoppingDate = params.get('shoppingDate'); //YYYY-MM-DD
+        if(shoppingDate == null)
+        {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+            shoppingDate = yyyy + '-' + mm + '-' + dd;
+        }
         fetch(`${ShoppingApiUrl}/${shoppingDate}`)
         .then(res => res.json())
         .then(

@@ -7,8 +7,8 @@ INSERT INTO [dbo].[Shopping]
            ,[CreatedOnUtc])
      VALUES
            (1
-           ,'2020-04-16 00:00:00.0000000'
-           ,'2020-04-16 00:00:00.0000000')
+           ,CAST (GETDATE() AS DATE)
+           ,GETDATE())
 GO
 
 INSERT INTO [dbo].[ShoppingItem]
@@ -36,9 +36,9 @@ INSERT INTO [dbo].[ShoppingItem]
            ,1
            ,'Rice'
            ,1
-           ,GETDATE()
+           ,CAST (GETDATE() AS DATE)
            ,1
-           ,GETDATE())
+           ,CAST (GETDATE() AS DATE))
 GO
 
 
