@@ -64,7 +64,7 @@ namespace ShoppingList.Business.ShoppingDomain
 
             if (shoppingId > 0)
             {
-                query = query.Where(a => a.Id == shoppingId);
+                query = query.Where(a => a.ShoppingId == shoppingId).OrderBy(item => item.Id);
             }
             else
             {

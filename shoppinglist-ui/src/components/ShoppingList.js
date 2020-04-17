@@ -37,9 +37,7 @@ class ShoppingList extends Component
             })
             .then(res => res.json())
             .then(shoppingItemResponse => {
-                alert(shoppingItemResponse.ShoppingItemId);
-                alert(shoppingItemResponse.ShoppingItemImageId);
-                this.props.onItemAdded(event, shoppingItemResponse.ShoppingItemId, shoppingItemResponse.ShoppingItemImageId);
+                this.props.onItemAdded(event, shoppingItemResponse.shoppingItemId, shoppingItemResponse.shoppingItemImageId);
             })
             .catch(
                 err => console.log(err)

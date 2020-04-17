@@ -76,7 +76,7 @@ namespace ShoppingList.Services.Controllers
                     foreach (ShoppingItemImage shoppingItemImage in sortedImages)
                     {
                         //TODO change the below url to dynamic URL using URL object
-                        shoppingItemModel.ItemImageUrlList.Add("https://localhost:44367/api/shopping/shoppingitemimage/" + shoppingItemImage.Id.ToString());
+                        shoppingItemModel.ItemImageUrlList.Add("https://localhost:44367/shopping/shoppingitemimage/" + shoppingItemImage.Id.ToString());
                     }
                     
                     shoppingItemModelList.Add(shoppingItemModel);
@@ -146,47 +146,45 @@ namespace ShoppingList.Services.Controllers
         {
             if(ModelState.IsValid)
             {
-                long shoppingId = 0;
                 if(shoppingItemRequest.Id <= 0)
                 {
-                    if(shoppingId > 0)
+                    ShoppingItem newShoppingItem = new ShoppingItem();
+                    newShoppingItem.ShoppingId = shoppingItemRequest.ShoppingId;
+                    newShoppingItem.Store = shoppingItemRequest.Store;
+                    newShoppingItem.ItemName = shoppingItemRequest.ItemName;
+                    newShoppingItem.ItemBrand = shoppingItemRequest.ItemBrand;
+                    newShoppingItem.ItemQuantity = shoppingItemRequest.ItemQuantity;
+                    newShoppingItem.ItemPrice = shoppingItemRequest.ItemPrice;
+                    newShoppingItem.ItemPriority = shoppingItemRequest.ItemPriority;
+                    newShoppingItem.ItemStatus = shoppingItemRequest.ItemStatus;
+                    newShoppingItem.ItemRemark = shoppingItemRequest.ItemRemark;
+                    newShoppingItem.CreatedOnUtc = DateTime.UtcNow;
+
+                    long shoppingItemId = await _shoppingBusiness.CreateShoppingItem(newShoppingItem);
+                    long shoppingItemImageId = 0;
+                    if (imageFile != null)
                     {
-                        ShoppingItem newShoppingItem = new ShoppingItem();
-                        newShoppingItem.ShoppingId = shoppingItemRequest.ShoppingId;
-                        newShoppingItem.Store = shoppingItemRequest.Store;
-                        newShoppingItem.ItemName = shoppingItemRequest.ItemName;
-                        newShoppingItem.ItemBrand = shoppingItemRequest.ItemBrand;
-                        newShoppingItem.ItemQuantity = shoppingItemRequest.ItemQuantity;
-                        newShoppingItem.ItemPrice = shoppingItemRequest.ItemPrice;
-                        newShoppingItem.ItemPriority = shoppingItemRequest.ItemPriority;
-                        newShoppingItem.ItemStatus = shoppingItemRequest.ItemStatus;
-                        newShoppingItem.ItemRemark = shoppingItemRequest.ItemRemark;
-                        newShoppingItem.CreatedOnUtc = DateTime.UtcNow;
+                        ShoppingItemImage newShoppingItemimage = new ShoppingItemImage();
+                        newShoppingItemimage.ShoppingItemId = shoppingItemId;
 
-                        long shoppingItemId = await _shoppingBusiness.CreateShoppingItem(newShoppingItem);
-                        long shoppingItemImageId = 0;
-                        if (imageFile != null)
+                        //TODO manipulate image name to prevent duplicate for every upload
+                        newShoppingItemimage.ImageName = shoppingItemRequest.ImageName;
+                        
+                        using (var stream = new MemoryStream())
                         {
-                            ShoppingItemImage newShoppingItemimage = new ShoppingItemImage();
-                            newShoppingItemimage.ShoppingItemId = shoppingItemId;
-                            //TODO manipulate image name to prevent duplicate for every upload
-                            newShoppingItemimage.ImageName = shoppingItemRequest.ImageName;
-                            using (var stream = new MemoryStream())
-                            {
-                                imageFile.OpenReadStream().CopyTo(stream);
-                                newShoppingItemimage.ImageFile = stream.ToArray();
-                            }
-                            newShoppingItemimage.CreatedOnUtc = DateTime.UtcNow;
-
-                            shoppingItemImageId = await _shoppingBusiness.CreateShoppingItemImage(newShoppingItemimage);
+                            imageFile.OpenReadStream().CopyTo(stream);
+                            newShoppingItemimage.ImageFile = stream.ToArray();
                         }
+                        newShoppingItemimage.CreatedOnUtc = DateTime.UtcNow;
 
-                        ShoppingItemSaveResponseModel response = new ShoppingItemSaveResponseModel();
-                        response.ShoppingItemId = shoppingItemId;
-                        response.ShoppingItemImageId = shoppingItemImageId;
-
-                        return Ok(response);
+                        shoppingItemImageId = await _shoppingBusiness.CreateShoppingItemImage(newShoppingItemimage);
                     }
+
+                    ShoppingItemSaveResponseModel response = new ShoppingItemSaveResponseModel();
+                    response.ShoppingItemId = shoppingItemId;
+                    response.ShoppingItemImageId = shoppingItemImageId;
+
+                    return Ok(response);
                 }
             }
 

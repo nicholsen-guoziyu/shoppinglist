@@ -13,6 +13,7 @@ namespace ShoppingList.Data.MsSqlServer
     {
         public string ConnectionString 
         {
+            //TODO make connection string dynamically by read from file
             get { return "Server=localhost;Database=ShoppingList;Trusted_Connection=True;Enlist=False;";  }
             set
             {
@@ -22,7 +23,6 @@ namespace ShoppingList.Data.MsSqlServer
 
         private DataConnection GetDataProvider()
         {
-            //TODO make connection string dynamically by read from file
             var dataConnection = new DataConnection(new SqlServerDataProvider(ProviderName.SqlServer, 
                                             SqlServerVersion.v2008), ConnectionString);
             return dataConnection;
