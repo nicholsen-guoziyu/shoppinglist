@@ -30,7 +30,6 @@ class ShoppingList extends Component
         event.persist(); // tell React to no make the event as null in the fetch callback
         if(this.props.items[event.target.dataset.internalindex].id === 0)
         {
-            //call the API to create new item in the server. the server will return the new id and image name
             fetch(`${ShoppingItemApiUrl}`, 
             {
                 method: 'POST',
@@ -46,7 +45,7 @@ class ShoppingList extends Component
         }
         else
         {
-            //call the API to update item if there is any new image uploaded, the server will return imageName
+            formData.append('id', this.props.items[event.target.dataset.internalindex].id);
             fetch(`${ShoppingItemApiUrl}`, 
             {
                 method: 'PUT',
