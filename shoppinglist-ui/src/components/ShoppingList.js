@@ -15,22 +15,22 @@ class ShoppingList extends Component
     handleSaveClick(event)
     {
         event.preventDefault();
-        if(this.props.items[event.target.dataset.internalindex].itemId === 0)
+        let formData = new FormData();
+        formData.append('shoppingId', this.props.shoppingId);
+        formData.append('store', this.props.items[event.target.dataset.internalindex].store);
+        formData.append('itemName', this.props.items[event.target.dataset.internalindex].itemName);
+        formData.append('itemBrand', this.props.items[event.target.dataset.internalindex].itemBrand);
+        formData.append('itemQuantity', this.props.items[event.target.dataset.internalindex].itemQuantity);
+        formData.append('itemPrice', this.props.items[event.target.dataset.internalindex].itemPrice);
+        formData.append('itemPriority', this.props.items[event.target.dataset.internalindex].itemPriority);
+        formData.append('itemStatus', this.props.items[event.target.dataset.internalindex].itemStatus);
+        formData.append('itemRemark', this.props.items[event.target.dataset.internalindex].itemRemark);
+        formData.append('imageName', this.props.items[event.target.dataset.internalindex].imageName);
+        formData.append('imageFile', this.props.items[event.target.dataset.internalindex].selectedFile);
+        event.persist(); // tell React to no make the event as null in the fetch callback
+        if(this.props.items[event.target.dataset.internalindex].id === 0)
         {
             //call the API to create new item in the server. the server will return the new id and image name
-            let formData = new FormData();
-            formData.append('shoppingId', this.props.shoppingId);
-            formData.append('store', this.props.items[event.target.dataset.internalindex].store);
-            formData.append('itemName', this.props.items[event.target.dataset.internalindex].itemName);
-            formData.append('itemBrand', this.props.items[event.target.dataset.internalindex].itemBrand);
-            formData.append('itemQuantity', this.props.items[event.target.dataset.internalindex].itemQuantity);
-            formData.append('itemPrice', this.props.items[event.target.dataset.internalindex].itemPrice);
-            formData.append('itemPriority', this.props.items[event.target.dataset.internalindex].itemPriority);
-            formData.append('itemStatus', this.props.items[event.target.dataset.internalindex].itemStatus);
-            formData.append('itemRemark', this.props.items[event.target.dataset.internalindex].itemRemark);
-            formData.append('imageName', this.props.items[event.target.dataset.internalindex].imageName);
-            formData.append('imageFile', this.props.items[event.target.dataset.internalindex].selectedFile);
-            event.persist(); // tell React to no make the event as null in the fetch callback
             fetch(`${ShoppingItemApiUrl}`, 
             {
                 method: 'POST',
@@ -43,29 +43,54 @@ class ShoppingList extends Component
             .catch(
                 err => console.log(err)
             );
-            
         }
         else
         {
             //call the API to update item if there is any new image uploaded, the server will return imageName
-            let itemImageName = "";
-            if(this.props.items[event.target.dataset.internalindex].selectedFile != null)
+            fetch(`${ShoppingItemApiUrl}`, 
             {
-                this.props.onImageUpdated(event, itemImageName);
-            }
+                method: 'PUT',
+                body:formData
+            })
+            .then(res => res.json())
+            .then(shoppingItemResponse => {
+                if(this.props.items[event.target.dataset.internalindex].selectedFile != null)
+                {
+                    this.props.onImageUpdated(event, shoppingItemResponse.shoppingItemImageUrl);
+                }
+            })
+            .catch(
+                err => console.log(err)
+            );
         }
     }
 
     handleDeleteClick(event)
     {
         event.preventDefault();
-        if(this.props.items[event.target.dataset.internalindex].itemId > 0)
-        {
-            //call the API to delete the item
+        let confirmDeletion = window.confirm('Do you really wish to delete it?');
+        if (confirmDeletion) {
+            if(this.props.items[event.target.dataset.internalindex].id > 0)
+            {
+                event.persist();
+                fetch(`${ShoppingItemApiUrl}/${this.props.items[event.target.dataset.internalindex].id}`, {
+                    method: 'delete',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => {
+                    this.props.onItemDeleted(event);
+                })
+                .catch(err => console.log(err));
+            }
+            else
+            {
+                this.props.onItemDeleted(event);
+            }
         }
-        this.props.onItemDeleted(event);
     }
-
+    
     handleItemCollected(event)
     {
         event.preventDefault();

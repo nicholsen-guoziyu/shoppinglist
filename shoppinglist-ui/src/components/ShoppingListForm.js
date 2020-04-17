@@ -9,8 +9,8 @@ class ShoppingListForm extends Component
     constructor(props)
     {
         super(props);
-        this.item = {index:0, itemId:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageUrlList:[], imageName:""};
-        this.itemId = 0;
+        this.item = {index:0, id:0, selectedFile:null, store:"", itemName:"", itemBrand:"", itemQuantity:"", itemPrice:0, itemPriority:1, itemStatus:1, itemRemark:"", itemImageUrlList:[], imageName:""};
+        this.shoppingId = 0;
         this.state = { 
             error: null,
             isLoaded: false,
@@ -39,7 +39,7 @@ class ShoppingListForm extends Component
         .then(res => res.json())
         .then(
             (result) => {
-                this.itemId = result.id;
+                this.shoppingId = result.id;
                 this.setState({
                     isLoaded: true,
                     items: result.shoppingItemModelList,
@@ -119,7 +119,7 @@ class ShoppingListForm extends Component
     handleItemAdded(event, itemId, itemImageUrl)
     {
         let items = [...this.state.items];
-        items[event.target.dataset.index]["itemId"] = itemId;
+        items[event.target.dataset.index]["id"] = itemId;
         items[event.target.dataset.index]["itemImageUrlList"] = [...items[event.target.dataset.index]["itemImageUrlList"], itemImageUrl];
         this.setState({ items }, () =>
             this.handleDataBind(this.state.filterText)
@@ -129,7 +129,11 @@ class ShoppingListForm extends Component
     handleItemDeleted(event)
     {
         let items = [...this.state.items];
-        items.splice(event.target.dataset.index, 1)
+        items.splice(event.target.dataset.index, 1);
+        let counter;
+        for (counter = 0; counter < items.length; counter++) {
+            items[counter]["index"] = counter; 
+        }
         this.setState({ items }, () =>
             this.handleDataBind(this.state.filterText)
         );
@@ -181,7 +185,7 @@ class ShoppingListForm extends Component
                     <input type="text" id="SearchText" placeholder="Search Item" onChange={this.handleFilterTextChange} value={this.state.filterText} />
                     <button className="btn"><i className="fa fa-plus-square"></i></button>
                     <Calendar onDateClick={this.retrieveItems}></Calendar>
-                    <ShoppingList shoppingId = {this.itemId} items={this.state.filteredItems} filterText={this.state.filterText} 
+                    <ShoppingList shoppingId = {this.shoppingId} items={this.state.filteredItems} filterText={this.state.filterText} 
                                         onItemAdded={this.handleItemAdded}
                                         onImageUpdated = {this.handleImageUpdated}
                                         onItemDeleted = {this.handleItemDeleted}

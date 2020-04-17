@@ -195,7 +195,7 @@ namespace ShoppingList.Services.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPut]
+        [HttpPut("shoppingItem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update([FromForm]ShoppingItemSaveRequestModel shoppingItemRequest, IFormFile imageFile)
@@ -243,7 +243,7 @@ namespace ShoppingList.Services.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpDelete("{shoppingItemId}")]
+        [HttpDelete("shoppingItem/{shoppingItemId}")]
         public async Task<IActionResult> Delete(long shoppingItemId)
         {
             //TODO validate this shopping item id belong to the current logged in user

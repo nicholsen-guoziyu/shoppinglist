@@ -53,9 +53,9 @@ namespace ShoppingList.Business.ShoppingDomain
             return await _shoppingItemRepository.CreateWithInt64IdentityAsync(shoppingItem);
         }
 
-        public Task<ShoppingItem> GetShoppingItem(long ShoppingItemId)
+        public async Task<ShoppingItem> GetShoppingItem(long shoppingItemId)
         {
-            throw new NotImplementedException();
+            return await _shoppingItemRepository.GetEntityAsync(shoppingItem => shoppingItem.Id == shoppingItemId);
         }
 
         public async Task<PaginatedList<ShoppingItem>> GetShoppingItems(long shoppingId, int dataIndex, int dataSize)
