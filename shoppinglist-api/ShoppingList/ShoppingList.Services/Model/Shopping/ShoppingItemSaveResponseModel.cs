@@ -9,6 +9,6 @@ namespace ShoppingList.Services.Model.Shopping
     {
         public long ShoppingItemId { get; set; }
 
-        public long ShoppingItemImageId { get; set; }
+        public string ShoppingItemImageUrl { get; set; }
     }
 }

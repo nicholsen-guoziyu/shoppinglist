@@ -30,6 +30,7 @@ class ShoppingList extends Component
             formData.append('itemRemark', this.props.items[event.target.dataset.internalindex].itemRemark);
             formData.append('imageName', this.props.items[event.target.dataset.internalindex].imageName);
             formData.append('imageFile', this.props.items[event.target.dataset.internalindex].selectedFile);
+            event.persist(); // tell React to no make the event as null in the fetch callback
             fetch(`${ShoppingItemApiUrl}`, 
             {
                 method: 'POST',
@@ -37,7 +38,7 @@ class ShoppingList extends Component
             })
             .then(res => res.json())
             .then(shoppingItemResponse => {
-                this.props.onItemAdded(event, shoppingItemResponse.shoppingItemId, shoppingItemResponse.shoppingItemImageId);
+                this.props.onItemAdded(event, shoppingItemResponse.shoppingItemId, shoppingItemResponse.shoppingItemImageUrl);
             })
             .catch(
                 err => console.log(err)

@@ -19,6 +19,10 @@ namespace ShoppingList.Services.Controllers
     public class ShoppingController : ControllerBase
     {
         private readonly IShoppingBusiness  _shoppingBusiness;
+
+        //TODO change the below url to dynamic URL using URL object
+        private const string _itemImageUrlPrefix = "https://localhost:44367/shopping/shoppingitemimage/";
+        
         public ShoppingController(IShoppingBusiness shoppingBusiness)
         {
             _shoppingBusiness = shoppingBusiness;
@@ -75,8 +79,8 @@ namespace ShoppingList.Services.Controllers
 
                     foreach (ShoppingItemImage shoppingItemImage in sortedImages)
                     {
-                        //TODO change the below url to dynamic URL using URL object
-                        shoppingItemModel.ItemImageUrlList.Add("https://localhost:44367/shopping/shoppingitemimage/" + shoppingItemImage.Id.ToString());
+                        
+                        shoppingItemModel.ItemImageUrlList.Add(_itemImageUrlPrefix + shoppingItemImage.Id.ToString());
                     }
                     
                     shoppingItemModelList.Add(shoppingItemModel);
@@ -182,7 +186,7 @@ namespace ShoppingList.Services.Controllers
 
                     ShoppingItemSaveResponseModel response = new ShoppingItemSaveResponseModel();
                     response.ShoppingItemId = shoppingItemId;
-                    response.ShoppingItemImageId = shoppingItemImageId;
+                    response.ShoppingItemImageUrl = _itemImageUrlPrefix + shoppingItemImageId.ToString();
 
                     return Ok(response);
                 }
@@ -231,7 +235,7 @@ namespace ShoppingList.Services.Controllers
 
                 ShoppingItemSaveResponseModel response = new ShoppingItemSaveResponseModel();
                 response.ShoppingItemId = shoppingItemRequest.Id;
-                response.ShoppingItemImageId = shoppingItemImageId;
+                response.ShoppingItemImageUrl = _itemImageUrlPrefix + shoppingItemImageId.ToString();
 
                 return Ok(response);
             }

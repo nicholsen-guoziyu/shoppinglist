@@ -116,11 +116,11 @@ class ShoppingListForm extends Component
         }));
     }
 
-    handleItemAdded(event, itemId, itemImageName)
+    handleItemAdded(event, itemId, itemImageUrl)
     {
         let items = [...this.state.items];
         items[event.target.dataset.index]["itemId"] = itemId;
-        items[event.target.dataset.index]["itemImageUrlList"] = [...items[event.target.dataset.index]["itemImageUrlList"], itemImageName];
+        items[event.target.dataset.index]["itemImageUrlList"] = [...items[event.target.dataset.index]["itemImageUrlList"], itemImageUrl];
         this.setState({ items }, () =>
             this.handleDataBind(this.state.filterText)
         );
@@ -135,11 +135,11 @@ class ShoppingListForm extends Component
         );
     }
 
-    handleImageUpdated(event, itemImageName)
+    handleImageUpdated(event, itemImageUrl)
     {
         let items = [...this.state.items];
         items[event.target.dataset.index]["selectedFile"] = null;
-        items[event.target.dataset.index]["itemImageUrlList"] = [...items[event.target.dataset.index]["itemImageUrlList"], itemImageName];
+        items[event.target.dataset.index]["itemImageUrlList"] = [...items[event.target.dataset.index]["itemImageUrlList"], itemImageUrl];
         this.setState({ items }, () =>
             this.handleDataBind(this.state.filterText)
         );
