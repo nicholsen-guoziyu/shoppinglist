@@ -1,6 +1,8 @@
 ﻿using LinqToDB;
 using LinqToDB.Data;
+using LinqToDB.DataProvider;
 using LinqToDB.DataProvider.SqlServer;
+using LinqToDB.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +23,26 @@ namespace ShoppingList.Data.MsSqlServer
             }
         }
 
+        protected IDataProvider LinqToDbDataProvider => new SqlServerDataProvider(ProviderName.SqlServer, SqlServerVersion.v2008);
+
+        public string ConfigurationName => LinqToDbDataProvider.Name;
+
+        protected MappingSchema AdditionalSchema
+        {
+            get
+            {
+                if (MetadataConfiguration.MappingSchemaInstance == null)
+                {
+                    MetadataConfiguration.MappingSchemaInstance = new MappingSchema(ConfigurationName) { MetadataReader = new MetadataReader() };
+                }
+                return MetadataConfiguration.MappingSchemaInstance;
+            }
+        }
+
         private DataConnection GetDataProvider()
         {
-            var dataConnection = new DataConnection(new SqlServerDataProvider(ProviderName.SqlServer, 
-                                            SqlServerVersion.v2008), ConnectionString);
+            var dataConnection = new DataConnection(LinqToDbDataProvider, ConnectionString);
+            dataConnection.AddMappingSchema(AdditionalSchema);
             return dataConnection;
         }
 
@@ -197,8 +215,7 @@ namespace ShoppingList.Data.MsSqlServer
 
         public ITable<T> GetTable()
         {
-            return new DataContext(new SqlServerDataProvider(ProviderName.SqlServer,
-                                            SqlServerVersion.v2008), ConnectionString).GetTable<T>();
+            return new DataContext(LinqToDbDataProvider, ConnectionString) { MappingSchema = AdditionalSchema }.GetTable<T>();
         }
 
         protected ITable<T> Table => _table ?? (_table = GetTable());

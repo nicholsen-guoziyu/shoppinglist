@@ -5,8 +5,6 @@ namespace ShoppingList.Business.ShoppingDomain.Model
 {
     public class Shopping : BaseEntity
     {
-        public long Id { get; set; }
-
         public long UserId { get; set; }
 
         public DateTime ShoppingDate { get; set; }
