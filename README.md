@@ -24,7 +24,7 @@ The framework used in this application:
 The IDEs which are being used to develop this application:
 * Visual Studio Code 1.44.0 for the React frontend
 * Microsoft Visual Studio Professional 2019 16.5.2 for the ASP.NET Core Web API REST Services (_**Prerequisite**_)
-* SQL Server Management Studio v18.4
+* SQL Server Management Studio v18.4 (SSMS)
 * Microsoft SQL Server 2019 Developer Edition for the backend database (_**Prerequisite**_)
 
 The tool used in this application:
@@ -35,11 +35,10 @@ The JavaScript Runtime used by this application:
 
 ### How to Use
 * Install the required (_**Prerequisite**_)
-* Run the DatabaseSchema.sql to create the ShoppingList database.
-* Run the DataSeed.sql to seed data.
+* Use SSMS to run the DatabaseSchema.sql to create the ShoppingList database.
+* Use SSMS to run the DataSeed.sql to seed data.
 * Open ShoppingList.sln in the shoppinglist-api\ShoppingList folder by using Visual Studio 2019 and press F5 to start the backend REST Services.
-* Open shoppinglist-ui folder by using Visual Studio Code/any React supported IDE and type npm start in the Visual Studio Code Terminal to run the React app. You will see one data will be shown which is based on the data populated in the DataSeed.sql.
-
+* Open shoppinglist-ui folder by using Visual Studio Code/any React supported IDE and type npm start in the Terminal (press Ctrl + Shift + ` to start new Terminal in Visual Studio Code) to run the React app. You will see one data will be shown which is based on the data populated in the DataSeed.sql.
 
 ### Pending Implementation
 * Authentication
@@ -49,5 +48,8 @@ The JavaScript Runtime used by this application:
 * Logging
 * Unit Testing
 * Deploy to Azure
+
+### Issues & Feedback
+For any issue and feedback, please help to post it into [Issues](https://github.com/nicholsen-guoziyu/shoppinglist/issues)
 
 Thank you and have a nice day. :smiley:
