@@ -29,6 +29,9 @@ The IDEs which are being used to develop this application:
 The tool used in this application:
 * create-react-app
 
+The JavaScript Runtime used by this application:
+* Node.js v12.16.1 (installed using NVM for Windows 1.1.7)
+
 ### How to Use
 * Run the DatabaseSchema.sql to create the ShoppingList database.
 * Run the DataSeed.sql to seed data.
