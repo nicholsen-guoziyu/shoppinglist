@@ -22,21 +22,23 @@ The framework used in this application:
 * .NET Core 3.1
 
 The IDEs which are being used to develop this application:
-* Visual Studio Code for the React frontend
-* Visual Studio 2019 16.5.2 for the ASP.NET Core Web API REST Services
-* SSMS and Microsoft SQL Server for the backend database
+* Visual Studio Code 1.44.0 for the React frontend
+* Microsoft Visual Studio Professional 2019 16.5.2 for the ASP.NET Core Web API REST Services (_**Prerequisite**_)
+* SQL Server Management Studio v18.4
+* Microsoft SQL Server 2019 Developer Edition for the backend database (_**Prerequisite**_)
 
 The tool used in this application:
 * create-react-app
 
 The JavaScript Runtime used by this application:
-* Node.js v12.16.1 (installed using NVM for Windows 1.1.7)
+* Node.js v12.16.1 (installed using NVM for Windows 1.1.7) (_**Prerequisite**_)
 
 ### How to Use
+* Install the required (_**Prerequisite**_)
 * Run the DatabaseSchema.sql to create the ShoppingList database.
 * Run the DataSeed.sql to seed data.
-* Open ShoppingList.sln in the shoppinglist-api\ShoppingList folder and press F5 to start the backend REST Services.
-* Open shoppinglist-ui folder by using Visual Studio Code and type npm start in the Visual Studio Code Terminal to run the React app. You will see one data will be shown which is based on the data populated in the DataSeed.sql.
+* Open ShoppingList.sln in the shoppinglist-api\ShoppingList folder by using Visual Studio 2019 and press F5 to start the backend REST Services.
+* Open shoppinglist-ui folder by using Visual Studio Code/any React supported IDE and type npm start in the Visual Studio Code Terminal to run the React app. You will see one data will be shown which is based on the data populated in the DataSeed.sql.
 
 
 ### Pending Implementation
