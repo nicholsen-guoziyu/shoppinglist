@@ -18,7 +18,7 @@ The application uses the following libraries:
 * React
 * LinqToDB to Microsoft SQL Server
 
-The frameworks:
+The framework used in this application:
 * .NET Core 3.1
 
 The IDEs which are being used to develop this application:
@@ -26,6 +26,8 @@ The IDEs which are being used to develop this application:
 * Visual Studio 2019 16.5.2 for the ASP.NET Core Web API REST Services
 * SSMS and Microsoft SQL Server for the backend database
 
+The tool used in this application:
+* create-react-app
 
 ### How to Use
 * Run the DatabaseSchema.sql to create the ShoppingList database.
