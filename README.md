@@ -1,3 +1,5 @@
+[My Blog](https://www.nicholsennorman.com)
+
 # Shopping List
 This application is created as part of my ASP.NET Core + React learning journey.
 
